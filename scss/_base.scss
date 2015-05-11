@@ -1,0 +1,171 @@
+/**
+ * Base Styles
+ */
+html{
+	font-family:"gotham-light";
+	font-size: 14px;
+}
+
+h1,h2,h3,h4,h5,h6,strong,b{
+	font-family:"gotham-book";
+	margin:0; padding:0;
+}
+
+input[type="text"]{
+	padding:10px;
+	border-radius:6px;
+	border:1px solid #CCC;
+	box-shadow:none;
+	color:#CCC;
+	text-transform:uppercase;
+	outline:none !important;
+	font-size:20px;
+	font-family:"gotham-light";
+	text-align:center;
+	background:none;
+}
+
+::-webkit-input-placeholder {
+   color:#CCC;
+   font-family:"gotham-light";
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color:#CCC;  
+   font-family:"gotham-light";
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color:#CCC;  
+   font-family:"gotham-light";
+}
+
+:-ms-input-placeholder {  
+   color:#CCC;  
+   font-family:"gotham-light";
+}
+
+.site-wrapper{
+	padding:20px;
+}
+
+#header-container{
+	position: fixed;
+	top:0; left:0; z-index:2;
+	width:100%;
+
+	.header-container-inner{
+		padding:20px 20px;
+	}
+
+	.main-navigation{
+		display: none;
+
+		@media( min-width:$desktop ){ display:inline-block; }
+
+		ul{
+			li{
+				a{
+					color: #EEE;
+				}
+			}
+		}
+	}
+
+	div.logo{
+		display: inline-block;
+		margin:0 0 0 0;
+		vertical-align: middle;
+		position: relative;
+		width:60px;
+		height:60px;
+		float: left;
+
+		a{
+			position: absolute;
+			left:0; top:0;
+			width:100%;
+			height: 100%;
+			background-image: url( ../img/logo_1x.png );
+			background-repeat:no-repeat;
+			background-size:60px 60px;
+
+			@include image-2x( "../img/logo_2x.png", 60px, 60px );
+		}
+	}
+}
+
+#page-container{
+	padding:100px 0 80px 0;
+
+	.background-video{
+		position: fixed; z-index:-1;
+		top:50%; left:50%;
+	}
+
+	.page-header-container{
+		position: fixed;
+		left:100px; top:20px;
+		margin:0px 0 0 0;
+
+		.page-header-content{
+			padding:0;
+
+			@include clearfix();
+
+			div.header-lockup{
+				h2{
+					line-height: 60px;
+				}
+			}
+		}
+	}
+
+	.page-content-sections{
+		@include clearfix();
+
+		margin:0 -4px 0 -4px;
+
+		.page-content-section{
+			width: 50%;
+			float: left;
+
+			.page-content-section-inner{
+				padding:4px;
+			}
+		}
+	}
+
+	.page-footer-container{
+		position:fixed;
+		bottom:0; left:0; width:100%; z-index:2;
+		text-align: left;
+
+		.page-footer-content{
+			@include clearfix();
+
+			padding:20px 20px;
+
+			.page-navigation{
+				width: 100%;
+
+				ul{
+					text-align: right;
+					width: 100%;
+
+					li{
+						a{
+							background-color: #CCC;
+							padding:10px 20px;
+
+							&:hover{
+								background-color: #444;
+								color: #FFF;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

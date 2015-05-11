@@ -1,0 +1,35 @@
+/**
+ * Search Detail Page Styles
+ */
+
+#search{
+	.page-header-container{
+		.page-header-content{
+			
+		}
+	}
+	.selected-photo-container{
+		text-align: center;
+		margin:-100px 0 40px 0;
+
+		.selected-photo{
+			width: 14%;
+			padding-bottom: 14%;
+			height: 0;
+			background:#eee;
+			margin: 0 auto;
+			background-size:cover;
+		}
+	}
+	.page-content-sections{
+		padding:0 80px;
+
+		.page-content-section{
+			width: 33.333334%;
+
+			.page-content-section-inner{
+				padding:0 60px;
+			}
+		}
+	}
+}
