@@ -19,7 +19,6 @@ define([
 
 				$.ajax({
 			        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/uploadImageFromFile",
-			        // dataType: "json",
 			        method:"post",
 				    cache: false,
 				    contentType: false,

@@ -6,6 +6,9 @@ define([
 		template: _.template( Template ),
 		id:"photo",
 		onready:function(){
+			//router.navigate("search", true);
+
+			
 			var _t = this;
 
 			_t.file_input = _t.$el.find("input[type=file]")[0];
