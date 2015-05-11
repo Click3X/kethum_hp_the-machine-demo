@@ -30,7 +30,7 @@ define([
 
 				ctx.drawImage(img, destX, destY, sourceSize, sourceSize, 0, 0, 500, 500);
 
-				_t.session_model.selected_photo_url = _t.canvas.toDataURL( "image/png" );
+				_t.session_model.set( "selected_photo_url", _t.canvas.toDataURL( "image/png" ) );
 			}
 
 			reader.onload = function(e){

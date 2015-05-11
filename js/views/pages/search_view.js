@@ -10,9 +10,8 @@ define([
 
 			_t.selected_photo = _t.$el.find("div.selected-photo")[0];
 
-			console.log(_t.session_model.selected_photo_url);
-			if( _t.session_model.selected_photo_url ){
-				$(_t.selected_photo).css("background-image","url("+_t.session_model.selected_photo_url+")");
+			if( _t.session_model.get("selected_photo_url") ){
+				$(_t.selected_photo).css("background-image","url("+_t.session_model.get("selected_photo_url")+")");
 			}
 		},
 		onclose:function(){
