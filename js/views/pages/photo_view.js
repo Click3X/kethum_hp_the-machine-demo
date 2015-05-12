@@ -60,26 +60,14 @@ define([
 		           	// console.log( "pull image list: ", data );
 		           	data_length = data.length;
 		           	displayList(data);	
-		           	$('.project-inner').slice(0, 4).css({
-		           		'height': 'auto',
-		           		'opacity': '1'
-		           	});
-		           	$('.project-inner > a').slice(0, 4).css('padding-bottom', '100%');	  
+		           	$('.project-inner').slice(0, 4).addClass('visible');  
 
 		           	// var library_sets = 	split(data, 8);
 		           	// displayList(library_sets[0]);
 		           	$("#more-image-btn").click(function(){
 		           		countImages(data_length - 4);
-		           		$('.project-inner').css({
-		           			'height': '0',
-		           			'opacity': '0'
-		           		});
-		           		$('.project-inner > a').css('padding-bottom', '0');	   
-		           		$('.project-inner').slice(counter, counter+4).css({
-			           		'height': 'auto',
-			           		'opacity': '1'
-		           		});
-		           		$('.project-inner > a').slice(counter, counter+4).css('padding-bottom', '100%');	   
+		           		$('.project-inner').removeClass('visible');
+		           		$('.project-inner').slice(counter, counter+4).addClass('visible'); 
 		           	});
 		        },
 		        error: function(e) 

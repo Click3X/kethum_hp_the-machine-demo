@@ -25,11 +25,15 @@ div.cfm-project-gallery{
 
 	 			a{
 	 				display: block;
+	 				cursor: pointer;
 	 				// padding-bottom:100%;
 	 				padding-bottom: 0;
 	 				// background-color: #EEE;
 	 				position: relative;
 	 				height:0;
+	 				@include prefix(transition, opacity 1s);
+
+
 
 	 				&:link,&:visited{
 	 					color: #999;
@@ -58,6 +62,19 @@ div.cfm-project-gallery{
 		 				}
 	 				}
 	 			}
+ 			}
+
+ 			.visible {
+ 				height: auto !important;
+ 				opacity: 1 !important;
+
+ 				a {
+ 					padding-bottom: 100% !important;
+ 				}
+
+ 				&:hover {
+ 					opacity: 0.6 !important;	
+ 				}
  			}
  		}
  	}
