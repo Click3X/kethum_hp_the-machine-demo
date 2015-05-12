@@ -17,13 +17,17 @@ div.cfm-project-gallery{
  			width:50%;
 
  			div.project-inner{
- 				padding:1px;
- 				margin:0;
+ 				// padding:1px;
+ 				margin:0px;
+ 				height: 0px;
+ 				opacity: 0;
+ 				@include prefix(transition, opacity 1s);
 
 	 			a{
 	 				display: block;
-	 				padding-bottom:100%;
-	 				background-color: #EEE;
+	 				// padding-bottom:100%;
+	 				padding-bottom: 0;
+	 				// background-color: #EEE;
 	 				position: relative;
 	 				height:0;
 
@@ -57,4 +61,22 @@ div.cfm-project-gallery{
  			}
  		}
  	}
+
+ 	.button {
+ 		color: #fff;
+ 		background-color: #ddd;
+ 		padding: 15px 25px;
+ 		text-decoration: none;
+ 		display: inline-block;
+ 		margin: auto;
+ 		text-align: center;
+ 		cursor: pointer;
+ 		margin-top: 20px;
+ 	}
+ 	.button:hover {
+ 		background-color: #aaa;
+ 	}
+
+
+
  }

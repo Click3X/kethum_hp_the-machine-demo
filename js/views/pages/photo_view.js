@@ -8,9 +8,8 @@ define([
 		onready:function(){
 			//router.navigate("search", true);
 
-			
 			var _t = this;
-
+			
 			_t.file_input = _t.$el.find("input[type=file]")[0];
 			_t.selected_photo_container = _t.$el.find(".selected-photo-container")[0];
 			_t.selected_photo = _t.$el.find("div.selected-photo")[0];
@@ -19,6 +18,8 @@ define([
 			_t.file_input.addEventListener('change', function(e){
 				_t.resizeimage( e.target.files[0] );
 			});
+			_t.getImageList();
+
 		},
 		resizeimage:function(file){
 			var _t = this;
@@ -42,6 +43,87 @@ define([
 
 			reader.readAsDataURL(file);
 		},
+		getImageList: function() {
+
+			var counter = 0,
+				data_length,
+				data = [];
+
+			$.ajax({
+		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageList",
+		        method:"get",
+			    cache: false,
+			    contentType: false,
+			    processData: false, 
+		        data:data,
+		        success: function(data){
+		           	// console.log( "pull image list: ", data );
+		           	data_length = data.length;
+		           	displayList(data);	
+		           	$('.project-inner').slice(0, 4).css({
+		           		'height': 'auto',
+		           		'opacity': '1'
+		           	});
+		           	$('.project-inner > a').slice(0, 4).css('padding-bottom', '100%');	  
+
+		           	// var library_sets = 	split(data, 8);
+		           	// displayList(library_sets[0]);
+		           	$("#more-image-btn").click(function(){
+		           		countImages(data_length - 4);
+		           		$('.project-inner').css({
+		           			'height': '0',
+		           			'opacity': '0'
+		           		});
+		           		$('.project-inner > a').css('padding-bottom', '0');	   
+		           		$('.project-inner').slice(counter, counter+4).css({
+			           		'height': 'auto',
+			           		'opacity': '1'
+		           		});
+		           		$('.project-inner > a').slice(counter, counter+4).css('padding-bottom', '100%');	   
+		           	});
+		        },
+		        error: function(e) 
+		        {
+		           	console.log( "pull list Error: " );
+		           	console.log(e);
+		        }
+
+
+		    });
+
+		    function countImages(length) {
+				if (counter < length) {
+					counter = counter + 4;
+				} else {
+					counter = 0;
+				}
+			}
+
+
+			function displayList(data) {
+				
+		        var library_inner;
+		    
+				for (i = 0; i < data.length; i++) { 
+					library_inner = '<li id="p' + i + '"><div class="project-inner" style="background: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data[i] + ') center center no-repeat"><a data-navigate-to=""></a></div></li>';
+					// library_inner = library_inner.concat(library_inner_item);	
+					document.getElementById("library-list").insertAdjacentHTML('beforeend', library_inner);		    
+				}
+				
+		    }
+
+		    function split(a, n) {
+			    var len = a.length,out = [], i = 0;
+			    while (i < len) {
+			        var size = Math.ceil((len - i) / n--);
+			        out.push(a.slice(i, i += size));
+			    }
+			    
+			    return out;
+			}			
+
+		},
+
 		onclose:function(){
 		},
 	});
