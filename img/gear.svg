@@ -1,0 +1,177 @@
+<svg id="gear-md" version="1.1" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <path id="center"
+        fill="#0699d4"
+        stroke="#0699d4"
+        stroke-width="1"
+        d="M 32,8
+           a 24,24 0 0,1 0,48
+           l 0,-5
+           a 19,19 0 0,0 0,-38
+           a 19,19 0 0,0 0,38
+           l 0,5
+           a 24,24 0 0,1 0,-48
+           z
+          "
+  />
+  <path id="tooth1"
+        fill="#0699d4"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth2"
+        fill="#0699d4"
+        transform="rotate(20 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth3"
+        fill="#0699d4"
+        transform="rotate(40 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth4"
+        fill="#0699d4"
+        transform="rotate(60 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth5"
+        fill="#0699d4"
+        transform="rotate(80 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth6"
+        fill="#0699d4"
+        transform="rotate(100 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth7"
+        fill="#0699d4"
+        transform="rotate(120 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth8"
+        fill="#0699d4"
+        transform="rotate(140 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+  <path id="tooth9"
+        fill="#0699d4"
+        transform="rotate(160 32 32)"
+        stroke="none"
+        stroke-width="1"
+        d="M 31,0
+           l 2,0 1,3 2,7
+           a 12,12 0 0,0 -8,0
+           l 2,-7 1,-3
+           z
+           
+           M 33,64
+           l -2,0 -1,-3 -2,-7
+           a 12,12 0 0,0 8,0
+           l -2,7 -1,3
+           z
+          "
+  />
+</svg>

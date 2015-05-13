@@ -28,7 +28,7 @@
 			width: 33.333334%;
 
 			.page-content-section-inner{
-				padding:0 60px;
+				padding:0 30px;
 				text-align: center;
 
 				.number-highlight {
@@ -36,7 +36,45 @@
 					font-weight: 800;
 
 				}
+
+				.time-cost {
+					color: $hp-blue;
+					font-size: 40px;
+				}
+
+				.gear img {
+					@include prefix(animation, rotate 3s infinite linear);
+					margin-top: 100px;	
+				}
+
+				.result-inner {
+					margin: 4px;
+					width: 100%;
+					padding-bottom: 100%;
+					height: 0;
+					background:#eee;
+					margin: 0 auto;
+					background-size:cover;
+				}
 			}
 		}
+	}
+}
+
+@-webkit-keyframes rotate {
+	from {
+    	-webkit-transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes rotate {
+	from {
+    	transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
 	}
 }

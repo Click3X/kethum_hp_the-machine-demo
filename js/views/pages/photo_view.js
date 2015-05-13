@@ -105,7 +105,8 @@ define([
 					filename = data[i].slice(16, -4);
 
 					library_inner = '<li id="p' + i + '"><div class="project-inner" data-filename="' + filename + '" style="background: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data[i] + ') center center no-repeat"><a data-navigate-to=""></a></div></li>';
-					document.getElementById("library-list").insertAdjacentHTML('beforeend', library_inner);		    
+					document.getElementById("library-list").insertAdjacentHTML('beforeend', library_inner);		
+					  
 				}
 				
 		    }
