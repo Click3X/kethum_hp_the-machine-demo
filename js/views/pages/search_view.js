@@ -76,6 +76,10 @@ define([
 		           	console.log( "fast search result: ", data );	
 		           	$('#fast-search > .gear').fadeOut();           	
 		           	displayList(data);
+		           	$('#fast-list').addClass('visible');
+
+		           	// display time
+		           	
 		        },
 		        error: function(e) 
 		        {
@@ -86,12 +90,10 @@ define([
 
 		    function displayList(data) {
 				
-		        var fast_inner, filename, data_img;
+		        var fast_inner, filename, data_img, time;
+		        time = data['results'][data['results'].length - 1]['time'];
+		        console.log('time consumed: ' + time);
 
-		        // console.log(data['results']);
-
-
-		    
 				for (i = 0; i < data['results'].length - 2; i++) { 
 					data_img = data['results'][i]['img'];
 					// console.log(data_img);
@@ -100,10 +102,39 @@ define([
 
 					fast_inner = '<li id="fast' + i + '"><div class="result-inner" data-filename="' + filename + '" style="background-image: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data_img + '.jpg)"></div></li>';
 					document.getElementById("fast-list").insertAdjacentHTML('beforeend', fast_inner);	
-					// console.log(fast_inner);  	    
+					// console.log(fast_inner);  	
+
+
+					$('#fast-search').find('.time-cost').jQuerySimpleCounter({start:0, end: time,duration: 1500});    
 				}
 				
 		    }
+
+		    $.fn.jQuerySimpleCounter = function( options ) {
+			    var settings = $.extend({
+			        start:  0,
+			        end:    216000,
+			        easing: 'swing',
+			        duration: 2500,
+			        complete: ''
+			    }, options );
+
+			    var thisElement = $(this);
+
+			    $({count: settings.start}).animate({count: settings.end}, {
+					duration: settings.duration,
+					easing: settings.easing,
+					step: function() {
+						console.log('counting function get called');
+						var mathCount = Math.ceil(this.count);
+						thisElement.text(mathCount);
+					},
+					complete: function() {
+						settings.complete;
+						thisElement.parent().addClass('time-done');
+					} 
+				});
+			};
 		},
 
 		onclose:function(){
