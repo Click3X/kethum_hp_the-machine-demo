@@ -16,10 +16,10 @@ define([
 				selected_url = _t.session_model.get("selected_file_id");
 				_t.searchFast(selected_url);
 				_t.searchMed(selected_url);
-				// _t.searchSlow(selected_url);
+				_t.searchSlow(selected_url);
 			}
 
-			
+
 		    $.fn.jQuerySimpleCounter = function( options ) {
 			    var settings = $.extend({
 			        start:  0,
@@ -49,8 +49,10 @@ define([
 		searchSlow:function(selected_url) {
 			var _t = this;
 			var data = {};
+			var rString = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+			console.log(rString);
 			$.ajax({
-		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByHadoopWithTracking/" + selected_url + "/13krjaposd8823r-aw3hrad",
+		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByHadoopWithTracking/" + selected_url + "/" + rString,
 		        method:"get",
 			    cache: false,
 			    contentType: false,
@@ -66,6 +68,12 @@ define([
 		           	console.log(e);
 		        }
 		    });
+
+		    function randomString(length, chars) {
+			    var result = '';
+			    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+			    return result;
+			}
 		},
 
 		searchMed:function(selected_url) {
