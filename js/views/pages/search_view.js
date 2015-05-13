@@ -14,7 +14,7 @@ define([
 			if( _t.session_model.get("selected_photo_url") ){
 				$(_t.selected_photo).css("background-image","url("+_t.session_model.get("selected_photo_url")+")");
 				selected_url = _t.session_model.get("selected_file_id");
-				_t.searchFast(selected_url);
+				// _t.searchFast(selected_url);
 				// _t.searchMed(selected_url);
 				// _t.searchSlow(selected_url);
 			}
@@ -23,7 +23,7 @@ define([
 		searchSlow:function(selected_url) {
 			var data = {};
 			$.ajax({
-		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByNaive/" + selected_url,
+		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByHadoop/" + selected_url,
 		        method:"get",
 			    cache: false,
 			    contentType: false,
@@ -44,7 +44,7 @@ define([
 		searchMed:function(selected_url) {
 			var data = {};
 			$.ajax({
-		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByHadoop/" + selected_url,
+		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByNaive/" + selected_url,
 		        method:"get",
 			    cache: false,
 			    contentType: false,
