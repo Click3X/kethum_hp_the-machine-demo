@@ -15,12 +15,39 @@ define([
 				$(_t.selected_photo).css("background-image","url("+_t.session_model.get("selected_photo_url")+")");
 				selected_url = _t.session_model.get("selected_file_id");
 				_t.searchFast(selected_url);
-				// _t.searchMed(selected_url);
+				_t.searchMed(selected_url);
 				// _t.searchSlow(selected_url);
 			}
+
+			
+		    $.fn.jQuerySimpleCounter = function( options ) {
+			    var settings = $.extend({
+			        start:  0,
+			        end:    216000,
+			        easing: 'swing',
+			        duration: 2500,
+			        complete: ''
+			    }, options );
+
+			    var thisElement = $(this);
+
+			    $({count: settings.start}).animate({count: settings.end}, {
+					duration: settings.duration,
+					easing: settings.easing,
+					step: function() {						
+						var mathCount = Math.ceil(this.count);
+						thisElement.text(mathCount);
+					},
+					complete: function() {
+						settings.complete;
+						thisElement.parent().addClass('time-done');
+					} 
+				});
+			};
 		},
 
 		searchSlow:function(selected_url) {
+			var _t = this;
 			var data = {};
 			$.ajax({
 		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByHadoopWithTracking/" + selected_url + "/13krjaposd8823r-aw3hrad",
@@ -42,6 +69,7 @@ define([
 		},
 
 		searchMed:function(selected_url) {
+			var _t = this;
 			var data = {};
 			$.ajax({
 		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByNaive/" + selected_url,
@@ -51,7 +79,10 @@ define([
 			    processData: false, 
 		        data:data,
 		        success: function(data){
-		           	console.log( "medium search result: ", data );	           	
+		           	console.log( "medium search result: ", data );	
+		           	$('#med-search > .gear').fadeOut();           	
+		           	_t.displayList(data, "med");
+		           	$('#med-list').addClass('visible');           	
 
 		        },
 		        error: function(e) 
@@ -63,6 +94,7 @@ define([
 		},
 
 		searchFast:function(selected_url) {
+			var _t = this;
 			var data = {};
 			
 			$.ajax({
@@ -75,10 +107,8 @@ define([
 		        success: function(data){
 		           	console.log( "fast search result: ", data );	
 		           	$('#fast-search > .gear').fadeOut();           	
-		           	displayList(data);
+		           	_t.displayList(data, "fast");
 		           	$('#fast-list').addClass('visible');
-
-		           	// display time
 		           	
 		        },
 		        error: function(e) 
@@ -87,54 +117,24 @@ define([
 		           	console.log(e);
 		        }
 		    });
+		},
 
-		    function displayList(data) {
-				
-		        var fast_inner, filename, data_img, time;
-		        time = data['results'][data['results'].length - 1]['time'];
-		        console.log('time consumed: ' + time);
+		displayList:function(data, searchSpeed) {
+			var search_inner, filename, data_img, time;
+	        time = data['results'][data['results'].length - 1]['time'];
+	        console.log('time consumed: ' + time);
 
-				for (i = 0; i < data['results'].length - 2; i++) { 
-					data_img = data['results'][i]['img'];
-					// console.log(data_img);
+			for (i = 0; i < 4; i++) { 
+				data_img = data['results'][i]['img'];
 
-					// filename = data[0][i].slice(16, -4);
+				// filename = data[0][i].slice(16, -4);
 
-					fast_inner = '<li id="fast' + i + '"><div class="result-inner" data-filename="' + filename + '" style="background-image: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data_img + '.jpg)"></div></li>';
-					document.getElementById("fast-list").insertAdjacentHTML('beforeend', fast_inner);	
-					// console.log(fast_inner);  	
+				search_inner = '<li id="' + searchSpeed + i + '"><div class="result-inner" data-filename="' + filename + '" style="background-image: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data_img + '.jpg)"></div></li>';
+				document.getElementById(searchSpeed + "-list").insertAdjacentHTML('beforeend', search_inner);		
 
 
-					$('#fast-search').find('.time-cost').jQuerySimpleCounter({start:0, end: time,duration: 1500});    
-				}
-				
-		    }
-
-		    $.fn.jQuerySimpleCounter = function( options ) {
-			    var settings = $.extend({
-			        start:  0,
-			        end:    216000,
-			        easing: 'swing',
-			        duration: 2500,
-			        complete: ''
-			    }, options );
-
-			    var thisElement = $(this);
-
-			    $({count: settings.start}).animate({count: settings.end}, {
-					duration: settings.duration,
-					easing: settings.easing,
-					step: function() {
-						console.log('counting function get called');
-						var mathCount = Math.ceil(this.count);
-						thisElement.text(mathCount);
-					},
-					complete: function() {
-						settings.complete;
-						thisElement.parent().addClass('time-done');
-					} 
-				});
-			};
+				$('#' + searchSpeed + '-search').find('.time-cost').jQuerySimpleCounter({start:0, end: time,duration: 800});    
+			}
 		},
 
 		onclose:function(){
