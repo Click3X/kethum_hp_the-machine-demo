@@ -29,6 +29,13 @@
 
 			.page-content-section-inner{
 				padding:0 60px;
+				text-align: center;
+
+				.number-highlight {
+					color: $hp-blue;
+					font-weight: 800;
+
+				}
 			}
 		}
 	}
