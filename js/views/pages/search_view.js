@@ -72,6 +72,10 @@ define([
 		        }
 		    });
 
+		    $('.cancel-search').click(function(){
+				_t.cancelSearch(rString);
+			});
+
 		    function randomString(length, chars) {
 			    var result = '';
 			    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
@@ -137,8 +141,6 @@ define([
 
 			for (i = 0; i < 4; i++) { 
 				data_img = data['results'][i]['img'];
-
-				// filename = data[0][i].slice(16, -4);
 
 				search_inner = '<li id="' + searchSpeed + i + '"><div class="result-inner" data-filename="' + filename + '" style="background-image: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data_img + '.jpg)"></div></li>';
 				document.getElementById(searchSpeed + "-list").insertAdjacentHTML('beforeend', search_inner);		
