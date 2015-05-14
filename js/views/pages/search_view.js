@@ -136,7 +136,8 @@ define([
 
 		displayList:function(data, searchSpeed) {
 			var search_inner, filename, data_img, time;
-	        time = data['results'][data['results'].length - 1]['time'];
+			time_length = data['results'].length - 1;
+	        time = data['results'][time_length]['time'];
 	        console.log('time consumed: ' + time);
 
 			for (i = 0; i < 4; i++) { 

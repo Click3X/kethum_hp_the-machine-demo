@@ -16,7 +16,8 @@ define([
 			_t.canvas = _t.$el.find("canvas")[0];
 			
 			_t.file_input.addEventListener('change', function(e){
-				_t.resizeimage( e.target.files[0] );
+				// _t.resizeimage( e.target.files[0] );
+				_t.uploadImage(e.target.files[0]);
 			});
 			_t.getImageList();
 
@@ -34,7 +35,7 @@ define([
 
 				ctx.drawImage(img, destX, destY, sourceSize, sourceSize, 0, 0, 500, 500);
 
-				_t.session_model.set( "selected_photo_url", _t.canvas.toDataURL( "image/jpg" ) );
+				_t.session_model.set( "selected_photo_url", _t.canvas.toDataURL( "image/jpeg" ) );
 			}
 
 			reader.onload = function(e){
@@ -43,6 +44,38 @@ define([
 
 			reader.readAsDataURL(file);
 		},
+
+		uploadImage:function() {
+			var _t = this;
+			var imageId;
+			var newDate = new Date();
+			var srcContent = {
+				"name": "myImage.jpg",
+				"src" : _t.canvas.toDataURL( "image/jpeg" )
+			};
+
+			$.ajax({
+		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/uploadImageFromSrc",
+		        method:"post",
+			    cache: false,
+			    contentType: 'application/json',
+			    processData: false, 
+		        data:JSON.stringify(srcContent),
+		        success: function(data){
+		        	console.log(_t.canvas.toDataURL( "image/jpeg" ));
+		           	console.log( data );
+		           	imageId = data['filename'].slice(0, -4);
+	           		_t.session_model.set( "selected_photo_url", imageId );
+
+		        },
+		        error: function(e) 
+		        {
+		           	console.log( "pull list Error: " );
+		           	console.log(e);
+		        }
+		    });
+		},
+
 		getImageList: function() {
 			var _t = this;
 			
@@ -61,7 +94,8 @@ define([
 		           	console.log( "pull image list: ", data );
 		           	data_length = data.length;
 		           	displayList(data);	
-		           	$('.project-inner').slice(0, 4).addClass('visible');  
+		           	$('.project-inner').slice(0, 4).addClass('visible');
+		           	$('.gear').fadeOut();  
 
 		           	$("#more-image-btn").click(function(){
 		           		countImages(data_length - 4);

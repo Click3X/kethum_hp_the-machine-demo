@@ -85,7 +85,7 @@ div.cfm-project-gallery{
 
  	.button {
  		color: #fff;
- 		background-color: #ddd;
+ 		background-color: $black;
  		padding: 15px 25px;
  		text-decoration: none;
  		display: inline-block;
@@ -93,9 +93,11 @@ div.cfm-project-gallery{
  		text-align: center;
  		cursor: pointer;
  		margin-top: 20px;
+ 		font-size: 16px;
+		font-family: 'gotham-book';
  	}
  	.button:hover {
- 		background-color: #aaa;
+ 		background-color: #444;
  	}
 
 

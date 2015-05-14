@@ -34,36 +34,28 @@
 				min-height: 300px;
 
 				.number-highlight {
-					color: $hp-blue;
-					font-weight: 800;
+					color: $brand-green;
+					font-weight: 500;
+					font-family: 'gotham-bold';
 
+				}
+
+				h2 {
+					font-family: 'gotham-bold';
 				}
 
 				h1 {
 					background-color: transparent;
 					margin: 15px 0;
-					color: $hp-blue;
+					color: $brand-green;
 					font-size: 40px;
+
 					@include prefix(transition, color 500ms);
 					@include prefix(transition, background-color 1s);
 					
 
 					.time-cost {
 						@include prefix(transition, color 500ms);
-					}
-				}
-
-
-
-				.gear {
-					position: absolute;
-					left: 0;
-					right: 0;
-					top: 200px;
-					z-index: 10;
-
-					img {
-						@include prefix(animation, rotate 3s infinite linear);
 					}
 				}
 
@@ -105,6 +97,33 @@
 	}
 	to {
 		-webkit-transform: rotate(360deg);
+	}
+}
+
+@-moz-keyframes rotate {
+	from {
+    	-moz-transform: rotate(0deg);
+	}
+	to {
+		-moz-transform: rotate(360deg);
+	}
+}
+
+@-ms-keyframes rotate {
+	from {
+    	-ms-transform: rotate(0deg);
+	}
+	to {
+		-ms-transform: rotate(360deg);
+	}
+}
+
+@-o-keyframes rotate {
+	from {
+    	-o-transform: rotate(0deg);
+	}
+	to {
+		-o-transform: rotate(360deg);
 	}
 }
 
