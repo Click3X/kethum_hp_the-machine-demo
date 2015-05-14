@@ -59,7 +59,10 @@ define([
 			    processData: false, 
 		        data:data,
 		        success: function(data){
-		           	console.log( "slow search result: ", data );	           	
+		           	console.log( "slow search result: ", data );
+		           	$('#slow-search > .gear').fadeOut();           	
+		           	_t.displayList(data, "slow");
+		           	$('#slow-list').addClass('visible');  	           	
 
 		        },
 		        error: function(e) 
@@ -143,6 +146,28 @@ define([
 
 				$('#' + searchSpeed + '-search').find('.time-cost').jQuerySimpleCounter({start:0, end: time,duration: 800});    
 			}
+		},
+
+		cancelSearch:function(uuid) {
+			var _t = this;
+			var data = {};
+			
+			$.ajax({
+		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchServiceDev/search/cancel/hadoop/" + uuid,
+		        method:"get",
+			    cache: false,
+			    contentType: false,
+			    processData: false, 
+		        data:data,
+		        success: function(data){
+		           	console.log( "cancel done: ", data );			           	
+		        },
+		        error: function(e) 
+		        {
+		           	console.log( "pull list Error: " );
+		           	console.log(e);
+		        }
+		    });
 		},
 
 		onclose:function(){
