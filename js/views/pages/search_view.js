@@ -8,6 +8,7 @@ define([
 		onready:function(){
 			var _t = this;
 			var selected_url;
+			var uploaded_url;
 
 			_t.selected_photo = _t.$el.find("div.selected-photo")[0];
 
@@ -18,6 +19,15 @@ define([
 				_t.searchMed(selected_url);
 				_t.searchSlow(selected_url);
 			}
+
+			if( _t.session_model.get("uploaded_file_id") ){
+				$(_t.selected_photo).css("background-image","url(https://sirius-2.hpl.hp.com:8443/LSHImages/uploads/"+_t.session_model.get("uploaded_file_id")+".jpg)");
+				uploaded_url = _t.session_model.get("uploaded_file_id");
+				_t.searchFast(uploaded_url);
+				_t.searchMed(uploaded_url);
+				_t.searchSlow(uploaded_url);
+			}
+
 
 
 		    $.fn.jQuerySimpleCounter = function( options ) {

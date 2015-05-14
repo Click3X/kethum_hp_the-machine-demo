@@ -4,6 +4,7 @@ define([
   var SessionModel = Backbone.Model.extend({
     selected_photo_url:null,
     selected_file_id: null,
+    uploaded_file_id: null,
     initialize:function(){
     	console.log("initialize session:");
     }

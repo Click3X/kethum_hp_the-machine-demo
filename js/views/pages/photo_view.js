@@ -5,6 +5,7 @@ define([
 	var PhotoView = PageView.extend({
 		template: _.template( Template ),
 		id:"photo",
+		canvas_data:null,
 		onready:function(){
 			//router.navigate("search", true);
 
@@ -16,9 +17,9 @@ define([
 			_t.canvas = _t.$el.find("canvas")[0];
 			
 			_t.file_input.addEventListener('change', function(e){
-				// _t.resizeimage( e.target.files[0] );
-				_t.uploadImage(e.target.files[0]);
+				 _t.resizeimage( e.target.files[0] );
 			});
+
 			_t.getImageList();
 
 		},
@@ -35,7 +36,8 @@ define([
 
 				ctx.drawImage(img, destX, destY, sourceSize, sourceSize, 0, 0, 500, 500);
 
-				_t.session_model.set( "selected_photo_url", _t.canvas.toDataURL( "image/jpeg" ) );
+				_t.canvas_data = _t.canvas.toDataURL( "image/jpeg" );
+				_t.uploadImage();
 			}
 
 			reader.onload = function(e){
@@ -47,11 +49,12 @@ define([
 
 		uploadImage:function() {
 			var _t = this;
+			
 			var imageId;
 			var newDate = new Date();
 			var srcContent = {
 				"name": "myImage.jpg",
-				"src" : _t.canvas.toDataURL( "image/jpeg" )
+				"src" : _t.canvas_data
 			};
 
 			$.ajax({
@@ -62,10 +65,10 @@ define([
 			    processData: false, 
 		        data:JSON.stringify(srcContent),
 		        success: function(data){
-		        	console.log(_t.canvas.toDataURL( "image/jpeg" ));
 		           	console.log( data );
 		           	imageId = data['filename'].slice(0, -4);
-	           		_t.session_model.set( "selected_photo_url", imageId );
+		           	console.log(imageId);
+	           		_t.session_model.set( "uploaded_file_id", imageId );
 
 		        },
 		        error: function(e) 
