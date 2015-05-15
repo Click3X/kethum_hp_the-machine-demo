@@ -87,9 +87,9 @@ define([
 		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageList",
 		        method:"get",
 		        success: function(data){
-		           	$('.gear').fadeOut();  
-
+		           	$('.gear').fadeOut(); 
 		           	displayList( data );	
+		           	setTimeout(function(){ $("#more-image-btn").css('opacity', 1); }, 1100);		           	
 
 		           	_t.library_list = _t.$el.find("#library-list").eq(0);
 

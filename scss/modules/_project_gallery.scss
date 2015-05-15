@@ -5,6 +5,24 @@
 div.cfm-project-gallery{
 	padding:0 0 0 0;
 	margin:0 0 0 0;
+	position: relative;
+
+	.page-content-section-inner {
+		border-right: 1px solid #aaa;
+	}
+					
+	#divider {
+		position: absolute;
+		right: -10px;
+		top: 45%;
+		background-color: #fff;
+		padding: 10px 0;
+	}
+
+	#more-image-btn {
+		opacity: 0;
+		@include prefix(transition, opacity 1s);
+	}
 
 	ul{
  		list-style: none;
@@ -96,4 +114,5 @@ div.cfm-project-gallery{
  	.button:hover {
  		background-color: #444;
  	}
+
  }
