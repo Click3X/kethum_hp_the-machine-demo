@@ -52,15 +52,12 @@ input[type="text"]{
 		display: inline-block;
 		margin:0 0 0 0;
 		vertical-align: middle;
-		// position: relative;
 		width:352px;
 		height:147px;
 		float: left;
 
 		a{
 			display: block;
-			// position: absolute;
-			// left:0; top:0;
 			width:352px;
 			height: 147px;
 			background-image: url( ../img/hplogo_new_lg_1x.png );
@@ -110,7 +107,7 @@ input[type="text"]{
 }
 
 #page-container{
-	padding:240px 0 80px 0;
+	padding:40px 0 80px 0;
 
 	.background-video{
 		position: fixed; z-index:-1;
@@ -118,10 +115,7 @@ input[type="text"]{
 	}
 
 	.page-header-container{
-		position: fixed;
-		left:54px; 
-		top:20px;
-		margin:0px 0 0 0;
+		margin:0;
 
 		.page-header-content{
 			padding:0;
