@@ -7,28 +7,20 @@ define([
 		id:"search",
 		onready:function(){
 			var _t = this;
-			var selected_url;
-			var uploaded_url;
 
 			_t.selected_photo = _t.$el.find("div.selected-photo")[0];
 
 			if( _t.session_model.get("selected_photo_url") ){
 				$(_t.selected_photo).css("background-image","url("+_t.session_model.get("selected_photo_url")+")");
-				selected_url = _t.session_model.get("selected_file_id");
-				_t.searchFast(selected_url);
-				_t.searchMed(selected_url);
-				_t.searchSlow(selected_url);
+
+				var fileid = _t.session_model.get("selected_file_id");
+
+				if( fileid ){
+					_t.searchFast( fileid );
+					_t.searchMed( fileid );
+					_t.searchSlow( fileid );
+				}
 			}
-
-			if( _t.session_model.get("uploaded_file_id") ){
-				$(_t.selected_photo).css("background-image","url(https://sirius-2.hpl.hp.com:8443/LSHImages/uploads/"+_t.session_model.get("uploaded_file_id")+".jpg)");
-				uploaded_url = _t.session_model.get("uploaded_file_id");
-				_t.searchFast(uploaded_url);
-				_t.searchMed(uploaded_url);
-				_t.searchSlow(uploaded_url);
-			}
-
-
 
 		    $.fn.jQuerySimpleCounter = function( options ) {
 			    var settings = $.extend({
@@ -145,20 +137,37 @@ define([
 		},
 
 		displayList:function(data, searchSpeed) {
-			var search_inner, filename, data_img, time;
-			time_length = data['results'].length - 1;
-	        time = data['results'][time_length]['time'];
+			var search_inner, filename, time, li, a;
+
+			last_index = data['results'].length - 1;
+	        time = data['results'][last_index]['time'];
+
 	        console.log('time consumed: ' + time);
 
 			for (i = 0; i < 4; i++) { 
-				data_img = data['results'][i]['img'];
+				filename = data['results'][i]['img'].split("/")[1];
 
-				search_inner = '<li id="' + searchSpeed + i + '"><div class="result-inner" data-filename="' + filename + '" style="background-image: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data_img + '.jpg)"></div></li>';
-				document.getElementById(searchSpeed + "-list").insertAdjacentHTML('beforeend', search_inner);		
+				$.ajax({
+			        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageFullPath/" + filename,
+			        method:"get",
+			        success: function(filepath){
+			        	li = $('<li class="visible"></li>');
+			        	search_inner = $('<div class="project-inner"></div>');
+						a = $('<a style="background-image: url(' + filepath + ')"></a>');
 
-
-				$('#' + searchSpeed + '-search').find('.time-cost').jQuerySimpleCounter({start:0, end: time,duration: 800});    
+						li.append(search_inner);
+						search_inner.append( a );
+						$("#" + searchSpeed + "-list").append( li );		
+			        },
+			        error: function(e) 
+			        {
+			           	console.log( "displayList:error " );
+			           	console.log(e);
+			        }
+			    });
 			}
+
+			$('#' + searchSpeed + '-search').find('.time-cost').jQuerySimpleCounter({start:0, end:time, duration: 800});
 		},
 
 		cancelSearch:function(uuid) {

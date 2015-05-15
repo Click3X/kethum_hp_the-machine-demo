@@ -7,15 +7,14 @@ define([
 		id:"photo",
 		canvas_data:null,
 		onready:function(){
-			//router.navigate("search", true);
-
 			var _t = this;
 			
 			_t.file_input = _t.$el.find("input[type=file]")[0];
 			_t.selected_photo_container = _t.$el.find(".selected-photo-container")[0];
 			_t.selected_photo = _t.$el.find("div.selected-photo")[0];
 			_t.canvas = _t.$el.find("canvas")[0];
-			
+			_t.library_list = _t.$el.find("#library-list").eq(0);
+
 			_t.file_input.addEventListener('change', function(e){
 				 _t.resizeimage( e.target.files[0] );
 			});
@@ -49,9 +48,7 @@ define([
 
 		uploadImage:function() {
 			var _t = this;
-			
-			var imageId;
-			var newDate = new Date();
+
 			var srcContent = {
 				"name": "myImage.jpg",
 				"src" : _t.canvas_data
@@ -66,10 +63,12 @@ define([
 		        data:JSON.stringify(srcContent),
 		        success: function(data){
 		           	console.log( data );
-		           	imageId = data['filename'].slice(0, -4);
-		           	console.log(imageId);
-	           		_t.session_model.set( "uploaded_file_id", imageId );
+		           	var filename = data['filename'].slice(0, -4);
 
+		           	console.log(filename);
+
+	           		_t.session_model.set( "selected_photo_url", _t.canvas_data );
+	    			_t.session_model.set( "selected_file_id", filename );
 		        },
 		        error: function(e) 
 		        {
@@ -82,84 +81,82 @@ define([
 		getImageList: function() {
 			var _t = this;
 			
-			var counter = 0,
-				data_length,
-				data = [];
+			_t.counter = 0;
 
 			$.ajax({
 		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageList",
 		        method:"get",
-			    cache: false,
-			    contentType: false,
-			    processData: false, 
-		        data:data,
 		        success: function(data){
-		           	console.log( "pull image list: ", data );
-		           	data_length = data.length;
-		           	displayList(data);	
-		           	$('.project-inner').slice(0, 4).addClass('visible');
 		           	$('.gear').fadeOut();  
 
-		           	$("#more-image-btn").click(function(){
-		           		countImages(data_length - 4);
-		           		$('.project-inner').removeClass('visible');
-		           		$('.project-inner').slice(counter, counter+4).addClass('visible'); 
-		           	});
-		           	$('.project-inner').click(selectLibrary);		           	
+		           	displayList( data );	
 
+		           	_t.library_list = _t.$el.find("#library-list").eq(0);
+
+		           	//more button functionality
+		           	$("#more-image-btn").click(function(){
+		           		_t.counter = _t.counter + 4; if(_t.counter > data.length - 4) _t.counter = 0;
+
+		           		_t.library_list.find("li").removeClass('visible');
+		           		_t.library_list.find("li").slice(_t.counter, _t.counter+4).addClass('visible'); 
+		           	});
 		        },
 		        error: function(e) 
 		        {
-		           	console.log( "pull list Error: " );
+		           	console.log( "getImageList:error " );
 		           	console.log(e);
 		        }
 		    });
 
-		    function selectLibrary() {
-		    	$('.project-inner').removeClass('selected');
-		    	$(this).addClass('selected');
-		    	fileId = $(this).data('filename');
-		    	console.log(fileId);
-		    	_t.session_model.set( "selected_photo_url", 'https://sirius-2.hpl.hp.com:8443/LSHImages/images_original/' + fileId + '.jpg' );
-		    	_t.session_model.set( "selected_file_id", fileId );
-		    }
-
-		    function countImages(length) {
-				if (counter < length) {
-					counter = counter + 4;
-				} else {
-					counter = 0;
-				}
-			}
-
-
 			function displayList(data) {
-				
-		        var library_inner, filename;
+				console.log(data);
+
+		        var li, project_inner, filename, a;
 		    
 				for (i = 0; i < data.length; i++) { 
+					getfilepath( data[i].split("/")[1].slice(0,-4) );
 
-					filename = data[i].slice(16, -4);
+					function getfilepath(filename){
+						$.ajax({
+					        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageFullPath/" + filename,
+					        method:"get",
+					        success: function(filepath){
+					        	li = $('<li data-filepath="' + filepath + '" data-filename="' + filename + '"></li>');
+					        	project_inner = $('<div class="project-inner"></div>');
+								a = $('<a style="background-image: url(' + filepath + ')"></a>');
 
-					library_inner = '<li id="p' + i + '"><div class="project-inner" data-filename="' + filename + '" style="background: url(https://sirius-2.hpl.hp.com:8443/LSHImages/' + data[i] + ') center center no-repeat"><a data-navigate-to=""></a></div></li>';
-					document.getElementById("library-list").insertAdjacentHTML('beforeend', library_inner);		
+								project_inner.append(a);
+								li.append(project_inner);
+								_t.library_list.append(li);
 
+								li.click( function(){ _t.selectLibrary( $(this) ); } );
+
+								_t.library_list.find("li").slice(0, 4).addClass('visible');
+					        },
+					        error: function(e) 
+					        {
+					           	console.log( "displayList:error " );
+					           	console.log(e);
+					        }
+					    });
+					}
 				}
-				
-		    }
-
-		 //    function split(a, n) {
-			//     var len = a.length,out = [], i = 0;
-			//     while (i < len) {
-			//         var size = Math.ceil((len - i) / n--);
-			//         out.push(a.slice(i, i += size));
-			//     }
-			    
-			//     return out;
-			// }			
-
+		    }	
 		},
+		selectLibrary:function(_li) {
+			var _t = this;
 
+	    	_t.library_list.find("li").removeClass('selected');
+	    	_li.addClass('selected');
+
+	    	filepath = _li.data('filepath');
+	    	filename = _li.data('filename');
+
+	    	console.log("selectLibrary", filename, filepath);
+
+	    	_t.session_model.set( "selected_photo_url", filepath );
+	    	_t.session_model.set( "selected_file_id", filename );
+	    },
 		onclose:function(){
 		},
 	});

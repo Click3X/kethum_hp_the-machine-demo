@@ -15,25 +15,26 @@ div.cfm-project-gallery{
  		li{
  			float:left;
  			width:50%;
+ 			display: none;
+
+ 			&.visible{
+ 				display: block;
+ 			}
 
  			div.project-inner{
- 				// padding:1px;
+ 				padding:8px;
  				margin:0px;
- 				height: 0px;
- 				opacity: 0;
  				@include prefix(transition, opacity 1s);
 
 	 			a{
 	 				display: block;
 	 				cursor: pointer;
-	 				// padding-bottom:100%;
-	 				padding-bottom: 0;
-	 				// background-color: #EEE;
+	 				background-size:cover;
+	 				background-position: center center;
+	 				padding-bottom:100%;
 	 				position: relative;
 	 				height:0;
 	 				@include prefix(transition, opacity 1s);
-
-
 
 	 				&:link,&:visited{
 	 					color: #999;
@@ -61,25 +62,20 @@ div.cfm-project-gallery{
 						  	vertical-align: middle;
 		 				}
 	 				}
+
+	 				&:hover{
+	 					outline:8px solid $navigation-grey;
+	 				}
 	 			}
  			}
 
- 			.visible {
- 				height: auto !important;
- 				opacity: 1 !important;
-
- 				a {
- 					padding-bottom: 100% !important;
- 				}
-
- 				&:hover {
- 					opacity: 0.6 !important;	
- 				}
- 			}
-
- 			.selected {
- 				opacity: 0.6 !important;
- 			}
+ 			&.selected{
+ 				div.project-inner{
+ 					a{
+						outline:8px solid $brand-green;
+					}
+				}
+			}
  		}
  	}
 
@@ -96,10 +92,8 @@ div.cfm-project-gallery{
  		font-size: 16px;
 		font-family: 'gotham-book';
  	}
+
  	.button:hover {
  		background-color: #444;
  	}
-
-
-
  }
