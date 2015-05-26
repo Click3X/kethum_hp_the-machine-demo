@@ -8,191 +8,120 @@ define([
 		onready:function(){
 			var _t = this;
 
-			_t.selected_photo = _t.$el.find("div.selected-photo")[0];
+			_t.ajax_queue 			= [];
+			_t.selected_photo_el 	= _t.$el.find( "div.selected-photo" )[0];
+			_t.uuid 				= randomString( 36, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 
-			if( _t.session_model.get("selected_photo_url") ){
-				$(_t.selected_photo).css("background-image","url("+_t.session_model.get("selected_photo_url")+")");
+			if( _t.session_model.get( "selected_photo_url" ) ){
+				$( _t.selected_photo_el).css( "background-image", "url(" + _t.session_model.get( "selected_photo_url" ) + ")" );
 
-				var fileid = _t.session_model.get("selected_file_id");
+				_t.selected_photo_id = _t.session_model.get( "selected_file_id" );
 
-				if( fileid ){
-					_t.searchFast( fileid );
-					_t.searchMed( fileid );
-					_t.searchSlow( fileid );
+				if( _t.selected_photo_id ){
+					setTimeout( function(){ _t.doSearch( "hadoop" ) }, 500 );
+					setTimeout( function(){ _t.doSearch( "naive" ) }, 2000 );
+					setTimeout( function(){ _t.doSearch( "lsh" ) }, 3500 );
 				}
 			}
-
-		    $.fn.jQuerySimpleCounter = function( options ) {
-			    var settings = $.extend({
-			        start:  0,
-			        end:    216000,
-			        easing: 'swing',
-			        duration: 2500,
-			        complete: ''
-			    }, options );
-
-			    var thisElement = $(this);
-
-			    $({count: settings.start}).animate({count: settings.end}, {
-					duration: settings.duration,
-					easing: settings.easing,
-					step: function() {						
-						var mathCount = Math.ceil(this.count);
-						thisElement.text(mathCount);
-					},
-					complete: function() {
-						settings.complete;
-						thisElement.parent().addClass('time-done');
-					} 
-				});
-			};
 		},
+		doSearch:function( _method ){
+			var _t 			= this,
+			search_el 		= _t.$el.find("#" + _method).eq(0);
 
-		searchSlow:function(selected_url) {
-			var _t = this;
-			var data = {};
-			var rString = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-			console.log(rString);
-			$.ajax({
-		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByHadoopWithTracking/" + selected_url + "/" + rString,
+			search_el.addClass( "visible" );
+
+			_t.ajax_queue.push( $.ajax({
+		        url: app.routes.search[ _method ] + _t.selected_photo_id + "/" + ( _method == "hadoop" ? _t.uuid : "" ) ,
 		        method:"get",
 			    cache: false,
 			    contentType: false,
 			    processData: false, 
-		        data:data,
-		        success: function(data){
-		           	console.log( "slow search result: ", data );
-		           	$('#slow-search > .gear').fadeOut();           	
-		           	_t.displayList(data, "slow");
-		           	$('#slow-list').addClass('visible');  	           	
+		        success:function( _data ){
+		           	console.log( "search success : ", _method,",", _data );
 
+		           	_t.displayImageList( _data, _method, search_el );          
 		        },
-		        error: function(e) 
+		        error:function( _e ) 
 		        {
 		           	console.log( "pull list Error: " );
-		           	console.log(e);
+		           	console.log( _e );
 		        }
-		    });
-
-		    $('.cancel-search').click(function(){
-				_t.cancelSearch(rString);
-			});
-
-		    function randomString(length, chars) {
-			    var result = '';
-			    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
-			    return result;
-			}
+		    }) );
 		},
+		displayImageList:function( _data, _method, _search_el ) {
+			var _t 			= this, 
+			search_ul 		= _search_el.find("ul.image-list").eq(0), 
+			time_el 		= _search_el.find(".time-cost").eq(0),
+			gear_el 		= _search_el.find(".gear").eq(0),
+			time 			= _data['results'][ _data['results'].length - 1 ]['time'];
 
-		searchMed:function(selected_url) {
-			var _t = this;
-			var data = {};
-			$.ajax({
-		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByNaive/" + selected_url,
-		        method:"get",
-			    cache: false,
-			    contentType: false,
-			    processData: false, 
-		        data:data,
-		        success: function(data){
-		           	console.log( "medium search result: ", data );	
-		           	$('#med-search > .gear').fadeOut();           	
-		           	_t.displayList(data, "med");
-		           	$('#med-list').addClass('visible');           	
+	        console.log( 'time consumed: ', _method, ":", time );
 
-		        },
-		        error: function(e) 
-		        {
-		           	console.log( "pull list Error: " );
-		           	console.log(e);
-		        }
-		    });
-		},
+           	gear_el.fadeOut();
+	        search_ul.addClass("visible");
+	        search_ul.empty();
 
-		searchFast:function(selected_url) {
-			var _t = this;
-			var data = {};
-			
-			$.ajax({
-		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByLSH/" + selected_url,
-		        method:"get",
-			    cache: false,
-			    contentType: false,
-			    processData: false, 
-		        data:data,
-		        success: function(data){
-		           	console.log( "fast search result: ", data );	
-		           	$('#fast-search > .gear').fadeOut();           	
-		           	_t.displayList(data, "fast");
-		           	$('#fast-list').addClass('visible');
-		           	
-		        },
-		        error: function(e) 
-		        {
-		           	console.log( "pull list Error: " );
-		           	console.log(e);
-		        }
-		    });
-		},
+	        //animate time
+	        time_el.jQuerySimpleCounter( { start:0, end:time, duration: 800 } );
 
-		displayList:function(data, searchSpeed) {
-			var search_inner, filename, time, li, a;
+	        //build images
+			for(i = 0; i < 4; i++) { 
+				var filename = _data['results'][i]['img'].split("/")[1];
 
-			last_index = data['results'].length - 1;
-	        time = data['results'][last_index]['time'];
-
-	        console.log('time consumed: ' + time);
-
-			for (i = 0; i < 4; i++) { 
-				filename = data['results'][i]['img'].split("/")[1];
-
-				$.ajax({
-			        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageFullPath/" + filename,
+				_t.ajax_queue.push( $.ajax({
+			        url: app.routes.image_path + filename,
 			        method:"get",
-			        success: function(filepath){
-			        	li = $('<li class="visible"></li>');
-			        	search_inner = $('<div class="project-inner"></div>');
-						a = $('<a style="background-image: url(' + filepath + ')"></a>');
+			        success: function( _file_path ){
+			        	console.log("display image list success: ", _method, ":", _file_path);
 
-						li.append(search_inner);
-						search_inner.append( a );
-						$("#" + searchSpeed + "-list").append( li );		
+			        	//create image li
+			        	var li 				= $('<li class="visible"></li>'),
+			        	inner 				= $('<div class="project-inner"></div>'),
+						a 					= $('<a style="background-image: url(' + _file_path + ')"></a>');
+
+						li.append( inner );
+						inner.append( a );
+
+						//append li to image list ul
+						search_ul.append( li );	
 			        },
-			        error: function(e) 
+			        error: function( _e ) 
 			        {
-			           	console.log( "displayList:error " );
-			           	console.log(e);
+			           	console.log( "display image list success: ", _method );
+			           	console.log( _e );
 			        }
-			    });
+			    }) );
 			}
-
-			$('#' + searchSpeed + '-search').find('.time-cost').jQuerySimpleCounter({start:0, end:time, duration: 800});
 		},
-
-		cancelSearch:function(uuid) {
+		cancelHadoop:function(){
 			var _t = this;
-			var data = {};
-			
+
+			//cancel ajax calls
+			$.each( _t.ajax_queue, function(){ this.abort(); });
+
+			_t.ajax_queue = [];
+
+			//don't queue this one. It must finish!
 			$.ajax({
-		        url: "https://sirius-2.hpl.hp.com:8443/ImageSearchServiceDev/search/cancel/hadoop/" + uuid,
+		        url: app.routes.cancel_hadoop + _t.uuid,
 		        method:"get",
 			    cache: false,
 			    contentType: false,
 			    processData: false, 
-		        data:data,
-		        success: function(data){
-		           	console.log( "cancel done: ", data );			           	
+		        success:function( _data ){
+		           	console.log("cancel hadoop success: ", _data );			           	
 		        },
-		        error: function(e) 
+		        error: function( _e ) 
 		        {
-		           	console.log( "pull list Error: " );
-		           	console.log(e);
+		           	console.log( "cancel hadoop error: " );
+		           	console.log( _e );
 		        }
 		    });
 		},
-
 		onclose:function(){
+			console.log("closing search view page");
+
+			this.cancelHadoop();
 		},
 	});
 	return SearchView;

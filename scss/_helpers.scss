@@ -46,6 +46,11 @@
     visibility: hidden;
 }
 
+.visible{
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
 .clearfix:before,
 .clearfix:after {
     content: " ";

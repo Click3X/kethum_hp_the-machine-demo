@@ -3,11 +3,6 @@
  */
 
 #search{
-	.page-header-container{
-		.page-header-content{
-			
-		}
-	}
 	.selected-photo-container{
 		text-align: center;
 		margin:-100px 0 40px 0;
@@ -21,11 +16,26 @@
 			background-size:cover;
 		}
 	}
+
+
+
 	.page-content-sections{
 		padding:0 80px;
 
 		.page-content-section{
 			width: 33.333334%;
+
+			&.cfm-project-gallery{
+				opacity: 0;
+				
+				@include prefix(transition, opacity 2s);
+
+				ul {
+					opacity: 0;
+
+					@include prefix(transition, opacity 2s);
+				}
+			}
 
 			.page-content-section-inner{
 				padding:0 50px;
@@ -59,13 +69,7 @@
 					}
 				}
 
-				ul {
-					opacity: 0;
-					@include prefix(transition, opacity 2s);
-				}
-
 				.result-inner {
-
 					margin: 4px;
 					width: 100%;
 					padding-bottom: 100%;
@@ -73,10 +77,6 @@
 					background:#eee;
 					margin: 0 auto;
 					background-size:cover;
-				}
-
-				.visible {
-					opacity: 1;
 				}
 
 				.time-done {

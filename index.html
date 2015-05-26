@@ -45,15 +45,16 @@
         <!--[if IE 8 ]><body class="ie8"><![endif]-->
         <!--[if (gt IE 9)|!(IE)]><!--><body><!--<![endif]-->
         <div class="site-wrapper">
-<!--             <div id="header-container">
-                <div class="header-container-inner">
-                    <div id="logo" class="logo"><a href=""></a></div>
-                    <div class="main-navigation cfm-navigation">
-                        <ul><li><a href="#" data-navigate-to="attract">ATTRACT</a></li><li><a href="#" data-navigate-to="intro">INTRO</a></li><li><a href="#" data-navigate-to="photo">PHOTO</a></li><li><a href="#" data-navigate-to="search">SEARCH</a></li><li><a href="#" data-navigate-to="wrapup">WRAP-UP</a></li><li><a href="#" data-navigate-to="thankyou">THANK YOU</a></li></ul>
-                    </div>
-                </div>
-            </div> -->
             <div id="page-container"></div>
+            <div id="register-container">
+                <div class="register-container-inner">
+                    <span class="message">Register for updates</span>
+                    <form id="register-form">
+                        <input class="email" type="text" placeholder="Enter email address" /> 
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
         </div>
 
         <script data-main="js/main" src="js/vendor/require.min.js"></script>
@@ -63,7 +64,7 @@
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create',"<?= $this->config->item('ga_account');?>");ga('send','pageview');
+            ga('create',"XXXXXX");ga('send','pageview');
         </script>
     </body>
 </html>

@@ -11,20 +11,6 @@ h1,h2,h3,h4,h5,h6,strong,b{
 	margin:0; padding:0;
 }
 
-input[type="text"]{
-	padding:10px;
-	border-radius:6px;
-	border:1px solid #CCC;
-	box-shadow:none;
-	color:#CCC;
-	text-transform:uppercase;
-	outline:none !important;
-	font-size:20px;
-	font-family:"gotham-light";
-	text-align:center;
-	background:none;
-}
-
 ::-webkit-input-placeholder {
    color:#CCC;
    font-family:"gotham-light";
@@ -46,8 +32,6 @@ input[type="text"]{
 }
 
 .site-wrapper{
-	padding:20px;
-
 	div.logo{
 		display: inline-block;
 		margin:0 0 0 0;
@@ -63,8 +47,6 @@ input[type="text"]{
 			background-image: url( ../img/hplogo_new_lg_1x.png );
 			background-repeat:no-repeat;
 			background-size:352px 147px;
-
-			@include image-2x( "../img/hplogo_new_lg_2x.png", 352px, 147px );
 		}
 	}
 
@@ -81,31 +63,6 @@ input[type="text"]{
 	}
 }
 
-#header-container{
-	position: fixed;
-	top:0; left:0; z-index:2;
-	width:100%;
-
-	.header-container-inner{
-		padding:20px 20px;
-	}
-
-	.main-navigation{
-		display: none;
-
-		@media( min-width:$desktop ){ display:inline-block; }
-
-		ul{
-			li{
-				a{
-					color: #EEE;
-				}
-			}
-		}
-	}
-
-}
-
 #page-container{
 	padding:0px 0 80px 0;
 
@@ -115,7 +72,7 @@ input[type="text"]{
 	}
 
 	.page-header-container{
-		margin:0;
+		margin:0; padding:20px;
 
 		.page-header-content{
 			padding:0;
@@ -147,22 +104,19 @@ input[type="text"]{
 
 	.page-footer-container{
 		position:fixed;
-		bottom:0; left:0; width:100%; z-index:2;
+		bottom:0; right:0; z-index:1;
 		text-align: left;
-		background-color: $navigation-grey;
 
 		.page-footer-content{
 			@include clearfix();
 
-			padding:12px 40px;
+			padding:14px 20px;
 
 			.page-navigation{
 				width: 100%;
 
 				ul{
 					text-align: right;
-					float: right;
-					// width: 100%;
 
 					li{
 						a{
@@ -170,15 +124,13 @@ input[type="text"]{
 							padding:10px 20px;
 							color: #fff;
 							font-size: 16px;
+							line-height: 18px;
 							font-family: 'gotham-book';
-
-							// &:hover{
-							// 	background-color: #444;								
-							// }
 						}
 
 						.btn-green {
 							background-color: $btn-green;
+
 							&:hover {
 								background-color: #7ca09a;
 							}
@@ -192,69 +144,101 @@ input[type="text"]{
 						}
 					}
 				}
-
-				.register-container {
-					display: inline-block;
-					float: left;
-
-					span {
-						margin-right: 20px;
-					}
-
-					input[type='submit'] {
-						border: none;
-						border-radius: 0;
-						line-height: 20px;
-						color: #fff;
-						padding: 10px 20px;
-						background-color: $btn-green;
-						outline: none;
-						text-transform: none;
-						font-family: 'gotham-book';
-						font-size: 16px;
-						border: 1px solid transparent;
-
-						&:hover{
-							background-color: #7ca09a;								
-						}
-					}
-
-					input[type='text'] {
-						background-color: #fff;
-						border-radius: 0;
-						border: 1px solid #b9b9bb;
-						color: $dark-grey;
-						font-size: 16px;
-						text-transform: none;
-						width: 350px;
-						text-align: left;
-					}
-					::-webkit-input-placeholder {
-					   color: #767676;
-					   font-size: 16px;
-					   text-transform: none;
-					}
-
-					:-moz-placeholder { /* Firefox 18- */
-					   color: #767676; 
-					   font-size: 16px; 
-					   text-transform: none;
-					}
-
-					::-moz-placeholder {  /* Firefox 19+ */
-					   color: #767676;
-					   font-size: 16px;  
-					   text-transform: none;
-					}
-
-					:-ms-input-placeholder {  
-					   color: #767676; 
-					   font-size: 16px; 
-					   text-transform: none;
-					}
-				}
-
 			}
 		}
+	}
+}
+
+#register-container {
+	background-color:$navigation-grey;
+	width:100%;
+	display: inline-block;
+	float: left;
+	bottom:0;
+	position: fixed;
+	z-index:0;
+
+	.register-container-inner{
+		padding:14px 10px 14px 10px;
+	}
+
+	span {
+		margin-right: 20px;
+	}
+
+	form{
+		display: inline-block;
+	}
+
+	&.success{
+		form{
+			visibility: hidden;
+		}
+	}
+
+	input[type='submit'] {
+		border: none;
+		border-radius: 0;
+		line-height: 18px;
+		color: #fff;
+		padding: 10px 20px;
+		background-color: $btn-green;
+		outline: none;
+		text-transform: none;
+		font-family: 'gotham-book';
+		font-size: 16px;
+
+		&:hover{
+			background-color: #7ca09a;								
+		}
+	}
+
+	&.sending{
+		input[type='submit']{
+			visibility: hidden;
+		}
+	}
+
+	input[type='text'] {
+		font-size:20px;
+		padding: 10px 20px 9px 20px;
+		font-family:"gotham-light";
+		background-color: #fff;
+		line-height: 18px;
+		border-radius: 0;
+		border: none;
+		color: $dark-grey;
+		font-size: 16px;
+		text-transform: none;
+		width: 350px;
+		text-align: left;
+
+		&.error{
+			outline:1px solid #ff0000;
+		}
+	}
+
+	::-webkit-input-placeholder {
+	   color: #767676;
+	   font-size: 16px;
+	   text-transform: none;
+	}
+
+	:-moz-placeholder { /* Firefox 18- */
+	   color: #767676; 
+	   font-size: 16px; 
+	   text-transform: none;
+	}
+
+	::-moz-placeholder {  /* Firefox 19+ */
+	   color: #767676;
+	   font-size: 16px;  
+	   text-transform: none;
+	}
+
+	:-ms-input-placeholder {  
+	   color: #767676; 
+	   font-size: 16px; 
+	   text-transform: none;
 	}
 }

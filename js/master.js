@@ -1,3 +1,26 @@
+/* App Configuration */
+var app = {
+    routes:{
+        image_upload:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/uploadImageFromSrc",
+        image_list:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageList",
+        image_path:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/library/getImageFullPath/",
+        search:{
+            hadoop:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByHadoopWithTracking/",
+            naive:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByNaive/",
+            lsh:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/searchByLSH/"
+        },
+        cancel_hadoop:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/search/cancel/hadoop/",
+        register:"https://sirius-2.hpl.hp.com:8443/ImageSearchService/user/submitEmail/"
+    }
+}
+
+/* utils */
+function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+    return result;
+}
+
 /*----- Avoid `console` errors -------*/
 var method, noop = function () {},
 methods = [

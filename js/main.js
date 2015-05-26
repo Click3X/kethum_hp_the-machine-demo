@@ -64,6 +64,32 @@ require([
         if(ie) body.className += " ie";
         if(debug) body.className += " debug";
 
+        //jquery plugins
+        $.fn.jQuerySimpleCounter = function( options ) {
+            var settings = $.extend({
+                start:  0,
+                end:    216000,
+                easing: 'swing',
+                duration: 2500,
+                complete: ''
+            }, options );
+
+            var thisElement = $(this);
+
+            $({count: settings.start}).animate({count: settings.end}, {
+                duration: settings.duration,
+                easing: settings.easing,
+                step: function() {                      
+                    var mathCount = Math.ceil(this.count);
+                    thisElement.text(mathCount);
+                },
+                complete: function() {
+                    settings.complete;
+                    thisElement.parent().addClass('time-done');
+                } 
+            });
+        };
+
         /*----- init router ------*/
         router = new Router();
     });

@@ -7,14 +7,9 @@ div.cfm-project-gallery{
 	margin:0 0 0 0;
 	position: relative;
 
-	#more-image-btn {
-		opacity: 0;
-		@include prefix(transition, opacity 1s);
-	}
-
 	ul{
  		list-style: none;
- 		padding:0; margin:0;
+ 		padding:0; margin:-8px;
  		
  		@include clearfix();
 
@@ -30,6 +25,7 @@ div.cfm-project-gallery{
  			div.project-inner{
  				padding:8px;
  				margin:0px;
+
  				@include prefix(transition, opacity 1s);
 
 	 			a{
@@ -40,6 +36,7 @@ div.cfm-project-gallery{
 	 				padding-bottom:100%;
 	 				position: relative;
 	 				height:0;
+
 	 				@include prefix(transition, opacity 1s);
 
 	 				&:link,&:visited{
@@ -102,5 +99,4 @@ div.cfm-project-gallery{
  	.button:hover {
  		background-color: #444;
  	}
-
  }
