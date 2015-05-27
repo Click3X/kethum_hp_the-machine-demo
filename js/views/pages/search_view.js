@@ -69,7 +69,7 @@ define([
 	        search_ul.empty();
 
 	        //animate time
-	        time_el.jQuerySimpleCounter( { start:0, end:time, duration: 800 } );
+	        if(_method != "hadoop") time_el.jQuerySimpleCounter( { start:0, end:time, duration: 800 } );
 
 	        //build images
 			for(i = 0; i < 4; i++) { 
