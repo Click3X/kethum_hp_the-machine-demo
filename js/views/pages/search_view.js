@@ -9,8 +9,10 @@ define([
 			var _t = this;
 
 			_t.ajax_queue 			= [];
+			_t.hadoop_time			= 0;
 			_t.audiotrack_keys 		= { "hadoop":0, "naive":1, "lsh":2 }
 			_t.selected_photo_el 	= _t.$el.find( "div.selected-photo" )[0];
+			_t.hadoop_time_el 		= _t.$el.find( "#hadoop .time-cost" ).eq(0);
 			_t.uuid 				= randomString( 36, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 
 			if( _t.session_model.get( "selected_photo_url" ) ){
@@ -19,7 +21,7 @@ define([
 				_t.selected_photo_id = _t.session_model.get( "selected_file_id" );
 
 				if( _t.selected_photo_id ){
-					setTimeout( function(){ _t.doSearch( "hadoop" ) }, 500 );
+					setTimeout( function(){ _t.hadoop_running = true; _t.doSearch( "hadoop" ) }, 500 );
 					setTimeout( function(){ _t.doSearch( "naive" ) }, 10500 );
 					setTimeout( function(){ _t.doSearch( "lsh" ) }, 20500 );
 				}
@@ -41,6 +43,8 @@ define([
 		           	console.log( "search success : ", _method,",", _data );
 
 		           	_t.displayImageList( _data, _method, search_el );          
+
+		           	if(_method == "hadoop") _t.stopHadoopTimer();
 		        },
 		        error:function( _e ) 
 		        {
@@ -96,6 +100,10 @@ define([
 			    }) );
 			}
 		},
+		stopHadoopTimer:function(){
+			_t.hadoop_running = false;
+		    _t.hadoop_time = 0;
+		},
 		cancelHadoop:function(){
 			var _t = this;
 
@@ -120,6 +128,14 @@ define([
 		           	console.log( _e );
 		        }
 		    });
+
+		    _t.stopHadoopTimer();
+		},
+		onstep:function(){
+			if(this.hadoop_running){
+				this.hadoop_time++;
+				this.hadoop_time_el.html( this.hadoop_time );
+			}
 		},
 		onclose:function(){
 			console.log("closing search view page");

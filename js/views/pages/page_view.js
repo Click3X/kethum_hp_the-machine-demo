@@ -132,7 +132,10 @@ define([
 		    }
 
 			if( _t.isready == true ) requestAnimationFrame( function(){ _t.step(); } );
+
+			_t.onstep();
 	    },
+		onstep:function(){/*overridden*/},
 	    onresize:function(){/*overridden*/},
 		onready:function(){/*overridden*/},
 		onready:function(){/*overridden*/},
