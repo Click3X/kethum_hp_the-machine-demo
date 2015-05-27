@@ -33,6 +33,8 @@ define([
            	});
 
            	_t.getImageList();
+
+           	_t.audioplayers[0].play();
 		},
 		resizeimage:function(file){
 			var _t = this;

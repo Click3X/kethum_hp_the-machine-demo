@@ -9,6 +9,7 @@ define([
 			var _t = this;
 
 			_t.ajax_queue 			= [];
+			_t.audiotrack_keys 		= { "hadoop":0, "naive":1, "lsh":2 }
 			_t.selected_photo_el 	= _t.$el.find( "div.selected-photo" )[0];
 			_t.uuid 				= randomString( 36, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' );
 
@@ -19,8 +20,8 @@ define([
 
 				if( _t.selected_photo_id ){
 					setTimeout( function(){ _t.doSearch( "hadoop" ) }, 500 );
-					setTimeout( function(){ _t.doSearch( "naive" ) }, 2000 );
-					setTimeout( function(){ _t.doSearch( "lsh" ) }, 3500 );
+					setTimeout( function(){ _t.doSearch( "naive" ) }, 10500 );
+					setTimeout( function(){ _t.doSearch( "lsh" ) }, 20500 );
 				}
 			}
 		},
@@ -47,6 +48,8 @@ define([
 		           	console.log( _e );
 		        }
 		    }) );
+
+		    _t.audioplayers[ _t.audiotrack_keys[ _method ] ].play();
 		},
 		displayImageList:function( _data, _method, _search_el ) {
 			var _t 			= this, 
