@@ -3,8 +3,9 @@ define([
   'models/page_model',
   'modules/slider/views/slider_view',
   'modules/videoplayer/views/videoplayer_view',
+  'modules/audioplayer/views/audioplayer_view',
   'modules/navigation/views/navigation_view'
-], function(Backbone, PageModel, SliderView, VideoPlayerView, NavigationView){
+], function(Backbone, PageModel, SliderView, VideoPlayerView, AudioPlayerView, NavigationView){
 	var PageView = Backbone.View.extend({
 		el: "#page-container",
 		initialize:function( options ){
@@ -43,6 +44,7 @@ define([
 			_t.buildsliders();
 			_t.buildvideos();
 			_t.buildnavigations();
+			_t.buildaudioplayers();
 
 			_t.$el.fadeIn( 400 );
 
@@ -51,6 +53,21 @@ define([
 			_t.onready();
 
 			console.log(_t.videos);
+		},
+		buildaudioplayers:function(){
+			var _t = this;
+
+			console.log("PageView: ", this.id, " :build audioplayers");
+
+			_t.audioplayers = [];
+
+			this.$el.find(".cfm-audioplayer").each( function( i, _el ){
+				var audioplayer = new AudioPlayerView({
+				  id:_el.getAttribute("id"), el:_el, page_collection:_t.page_collection
+				});
+
+				_t.audioplayers.push( audioplayer );
+			});
 		},
 		buildsliders:function(){
 			var _t = this;

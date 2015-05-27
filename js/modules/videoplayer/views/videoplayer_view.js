@@ -6,8 +6,10 @@ define([
             var _t = this;
 
             _t.poster         = _t.$el.find( "div.cfm-videoplayer-poster" )[0];
-            _t.video          = _t.$el.find( "div.cfm-videoplayer-dektop" )[0];
-            _t.mobile_video   = _t.$el.find( "div.cfm-videoplayer-mobile" )[0];
+            _t.video          = _t.$el.find( "video.cfm-videoplayer-desktop" )[0];
+            _t.mobile_video   = _t.$el.find( "video.cfm-videoplayer-mobile" )[0];
+
+            console.log(_t.video);
 
             _t.model          = new Backbone.Model( { ready:false } );
 
@@ -34,6 +36,8 @@ define([
             });
 
             _t.load( _t.video_url, _t.video_type, _t.poster_url );
+
+            console.log("initialize video player", _t.video);
         },
         play:function(){
             if( mobile == false ) this.video.play();
@@ -45,7 +49,7 @@ define([
         load:function( _url, _type, _poster ){
             var _t = this;
 
-            _url += ("."+_type);
+            _url += ( "." + _type );
 
             if( mobile == true ){
                 $( _t.video ).remove();
@@ -54,7 +58,7 @@ define([
                 if( _url ) $( _t.mobile_video ).attr( "src", _url );
 
                 $( _t.mobile_video ).on( "play", function(){
-                    $( _t.mobile_video ).css( "opacity",1 );
+                    $( _t.mobile_video ).css( "opacity", 1 );
                 });
 
                 if( iphone ){
@@ -71,6 +75,8 @@ define([
                 $( _t.video ).on( "play", function(){
                     $( _t.poster ).fadeOut( 200 );
                 });
+
+                _t.play();
             }
 
             if( _poster ) _t.loadposter( _poster );

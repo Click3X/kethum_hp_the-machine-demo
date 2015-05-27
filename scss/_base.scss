@@ -2,51 +2,51 @@
  * Base Styles
  */
 html{
-	font-family:"gotham-light";
+	font-family: "gotham-light";
 	font-size: 14px;
 }
 
 h1,h2,h3,h4,h5,h6,strong,b{
-	font-family:"gotham-book";
+	font-family: "gotham-book";
 	margin:0; padding:0;
 }
 
 ::-webkit-input-placeholder {
-   color:#CCC;
-   font-family:"gotham-light";
+   color: #CCC;
+   font-family: "gotham-light";
 }
 
 :-moz-placeholder { /* Firefox 18- */
-   color:#CCC;  
-   font-family:"gotham-light";
+   color: #CCC;  
+   font-family: "gotham-light";
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-   color:#CCC;  
-   font-family:"gotham-light";
+   color: #CCC;  
+   font-family: "gotham-light";
 }
 
 :-ms-input-placeholder {  
-   color:#CCC;  
-   font-family:"gotham-light";
+   color: #CCC;  
+   font-family: "gotham-light";
 }
 
 .site-wrapper{
 	div.logo{
 		display: inline-block;
-		margin:0 0 0 0;
+		margin: 0 0 0 0;
 		vertical-align: middle;
-		width:352px;
-		height:147px;
+		width: 352px;
+		height: 147px;
 		float: left;
 
 		a{
 			display: block;
-			width:352px;
+			width: 352px;
 			height: 147px;
 			background-image: url( ../img/hplogo_new_lg_1x.png );
-			background-repeat:no-repeat;
-			background-size:352px 147px;
+			background-repeat: no-repeat;
+			background-size: 352px 147px;
 		}
 	}
 
