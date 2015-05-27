@@ -101,8 +101,8 @@ define([
 			}
 		},
 		stopHadoopTimer:function(){
-			_t.hadoop_running = false;
-		    _t.hadoop_time = 0;
+			this.hadoop_running = false;
+		    this.hadoop_time = 0;
 		},
 		cancelHadoop:function(){
 			var _t = this;
