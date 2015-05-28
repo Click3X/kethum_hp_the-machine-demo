@@ -1,6 +1,6 @@
 'use strict';
 
-var router,changepage,pushstate=false,mobile=false,retina=false,mp4=false,ipad=false,iphone=false,ie=false,ie8=false,android=false,firstpage = true,didresize = false;
+var router,changepage,pushstate=false,mobile=false,retina=false,mp4=false,ipad=false,iphone=false,iphone34=false,ie=false,ie8=false,android=false,firstpage = true,didresize = false;
 
 require.config({
     baseUrl: "",
@@ -53,6 +53,9 @@ require([
         if( uagent.search( "iphone" ) > -1 ) iphone = true;
         if( uagent.search( "android" ) > -1 ) android = true;
 
+        if( iphone && (window.screen.height == 480) )
+            iphone34 = true;
+
         /*-------- set body tags ---------*/
         if(mobile) body.className += " mobile";
         if(pushstate) body.className += " pushstate";
@@ -60,6 +63,7 @@ require([
         if(mp4) body.className += " mp4";
         if(ipad) body.className += " ipad";
         if(iphone) body.className += " iphone";
+        if(iphone34) body.className += " iphone34";
         if(android) body.className += " android";
         if(ie) body.className += " ie";
         if(debug) body.className += " debug";
