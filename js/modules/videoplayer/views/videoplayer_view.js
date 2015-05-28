@@ -102,7 +102,6 @@ define([
 
             var scale = _width/_t.video_width;
             if( (_t.video_height*scale) < _height ) scale = _height/_t.video_height;
-            scale += .05;
 
             _t.$el.css({
                 "transform":"scale("+scale+")"

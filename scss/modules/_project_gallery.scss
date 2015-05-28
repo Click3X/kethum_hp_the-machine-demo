@@ -9,7 +9,7 @@ div.cfm-project-gallery{
 
 	ul{
  		list-style: none;
- 		padding:0; margin:-8px;
+ 		padding:0; margin:-5px;
  		
  		@include clearfix();
 
@@ -23,7 +23,7 @@ div.cfm-project-gallery{
  			}
 
  			div.project-inner{
- 				padding:8px;
+ 				padding:5px;
  				margin:0px;
 
  				@include prefix(transition, opacity 1s);
@@ -67,7 +67,7 @@ div.cfm-project-gallery{
 	 				}
 
 	 				&:hover{
-	 					outline:8px solid $navigation-grey;
+	 					outline:5px solid $navigation-grey;
 	 				}
 	 			}
  			}
@@ -75,7 +75,7 @@ div.cfm-project-gallery{
  			&.selected{
  				div.project-inner{
  					a{
-						outline:8px solid $brand-green;
+						outline:5px solid $brand-green;
 					}
 				}
 			}
@@ -91,7 +91,7 @@ div.cfm-project-gallery{
  		margin: auto;
  		text-align: center;
  		cursor: pointer;
- 		margin-top: 20px;
+ 		margin-top: 14px;
  		font-size: 16px;
 		font-family: 'gotham-book';
  	}
