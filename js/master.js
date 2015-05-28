@@ -70,6 +70,12 @@ window.addEventListener('scroll', function(){
     },200);
 }, false);
 
+/*--------email validation---------*/
+function validateemail(email){
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    return re.test(email);
+}
+
 /*--------set default pop window parameters---------*/
 function openpopup(url, title, w, h){
     // Fixes dual-screen position Most browsers Firefox

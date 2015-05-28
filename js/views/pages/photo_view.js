@@ -9,6 +9,8 @@ define([
 		onready:function(){
 			var _t = this;
 
+			_t.imageselected 					= false;
+
 			//html elements
 			_t.file_input 					= _t.$el.find("input[type=file]")[0];
 			_t.selected_photo_container 	= _t.$el.find(".selected-photo-container")[0];
@@ -79,8 +81,7 @@ define([
 
 		           	console.log( "upload image success: ", _response, filename );
 
-	           		_t.session_model.set( "selected_photo_url", _t.canvas_data );
-	    			_t.session_model.set( "selected_file_id", filename );
+					_t.setselectedimage( _t.canvas_data, filename );
 		        },
 		        error: function( _e ) 
 		        {
@@ -88,6 +89,14 @@ define([
 		           	console.log( _e );
 		        }
 		    });
+		},
+		setselectedimage:function( _url, _id ){
+			this.session_model.set( "selected_photo_url", _url );
+			this.session_model.set( "selected_file_id", _id );
+
+			this.imageselected = true;
+
+			this.enableallnavigation();
 		},
 		getImageList: function() {
 			var _t = this;
@@ -156,11 +165,16 @@ define([
 	    	filepath = _li.data('filepath');
 	    	filename = _li.data('filename');
 
-	    	console.log("imageListSelected", filename, filepath);
+	    	console.log("image list selected", filename, filepath);
 
-	    	_t.session_model.set( "selected_photo_url", filepath );
-	    	_t.session_model.set( "selected_file_id", filename );
+	    	_t.setselectedimage( filepath, filename );
 	    },
+	    onnavbuttonclicked:function( _pageid ){
+	    	if( _pageid == "search" && !this.imageselected )
+				return;
+
+			changepage( _pageid );
+		},
 		onclose:function(){
 		},
 	});

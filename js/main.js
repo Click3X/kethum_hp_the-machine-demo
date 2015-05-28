@@ -1,6 +1,6 @@
 'use strict';
 
-var router,pushstate=false,mobile=false,retina=false,mp4=false,ipad=false,iphone=false,ie=false,ie8=false,android=false,firstpage = true,didresize = false;
+var router,changepage,pushstate=false,mobile=false,retina=false,mp4=false,ipad=false,iphone=false,ie=false,ie8=false,android=false,firstpage = true,didresize = false;
 
 require.config({
     baseUrl: "",
@@ -92,5 +92,9 @@ require([
 
         /*----- init router ------*/
         router = new Router();
+
+        changepage = function(_pageid){
+            router.onchangepage(_pageid);
+        }
     });
 });

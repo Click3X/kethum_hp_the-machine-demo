@@ -8,12 +8,13 @@ define([
 		onready:function(){
 			var _t = this;
 
+			_t.lshcomplete 			= false;
 			_t.ajax_queue 			= [];
-			_t.hadoop_time			= 0;
 			_t.audiotrack_keys 		= { "hadoop":0, "naive":1, "lsh":2 }
 			_t.selected_photo_el 	= _t.$el.find( "div.selected-photo" )[0];
 			_t.hadoop_time_el 		= _t.$el.find( "#hadoop .time-cost" ).eq(0);
 			_t.uuid 				= randomString( 36, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' );
+			_t.timers 		= [];
 
 			if( _t.session_model.get( "selected_photo_url" ) ){
 				$( _t.selected_photo_el).css( "background-image", "url(" + _t.session_model.get( "selected_photo_url" ) + ")" );
@@ -21,9 +22,11 @@ define([
 				_t.selected_photo_id = _t.session_model.get( "selected_file_id" );
 
 				if( _t.selected_photo_id ){
-					setTimeout( function(){ _t.hadoop_running = true; _t.doSearch( "hadoop" ) }, 500 );
-					setTimeout( function(){ _t.doSearch( "naive" ) }, 10500 );
-					setTimeout( function(){ _t.doSearch( "lsh" ) }, 20500 );
+					_t.startHadoopTimer();
+
+					_t.doSearch( "hadoop" );
+					_t.timers.push( setTimeout( function(){ _t.doSearch( "naive" ) }, 10500 ));
+					_t.timers.push( setTimeout( function(){ _t.doSearch( "lsh" ) }, 20500 ));
 				}
 			}
 		},
@@ -33,6 +36,8 @@ define([
 
 			search_el.addClass( "visible" );
 
+			console.log("do search : ", app.routes.search[ _method ] + _t.selected_photo_id + "/" + ( _method == "hadoop" ? _t.uuid : "" ) );
+
 			_t.ajax_queue.push( $.ajax({
 		        url: app.routes.search[ _method ] + _t.selected_photo_id + "/" + ( _method == "hadoop" ? _t.uuid : "" ) ,
 		        method:"get",
@@ -40,18 +45,28 @@ define([
 			    contentType: false,
 			    processData: false, 
 		        success:function( _data ){
-		           	console.log( "search success : ", _method,",", _data );
+		           	console.log( "search success : ", _method, "," , _data );
 
 		           	_t.displayImageList( _data, _method, search_el );          
 
-		           	if(_method == "hadoop") _t.stopHadoopTimer();
+		           	if(_method == "hadoop"){
+		           		_t.stopHadoopTimer();
+
+		           		_t.timers.push( setTimeout( function(){ changepage("wrapup") }, 10000 ));
+		           	}
 		        },
 		        error:function( _e ) 
 		        {
 		           	console.log( "pull list Error: " );
 		           	console.log( _e );
 		        }
-		    }) );
+		    }));
+
+			_t.audioplayers[ _t.audiotrack_keys[ _method ] ].onended(function(){
+				console.log("audio eneded: ", _method);
+
+				if( _method == "lsh" ) _t.lshcomplete = true;
+			});
 
 		    _t.audioplayers[ _t.audiotrack_keys[ _method ] ].play();
 		},
@@ -62,14 +77,16 @@ define([
 			gear_el 		= _search_el.find(".gear").eq(0),
 			time 			= _data['results'][ _data['results'].length - 1 ]['time'];
 
-	        console.log( 'time consumed: ', _method, ":", time );
-
            	gear_el.fadeOut();
 	        search_ul.addClass("visible");
 	        search_ul.empty();
 
 	        //animate time
-	        if(_method != "hadoop") time_el.jQuerySimpleCounter( { start:0, end:time, duration: 800 } );
+	        if(_method == "hadoop"){
+	        	time_el.parent().addClass("time-done");
+	        } else {
+	        	time_el.jQuerySimpleCounter( { start:0, end:time, duration: 800 } );
+	        }
 
 	        //build images
 			for(i = 0; i < 4; i++) { 
@@ -79,7 +96,7 @@ define([
 			        url: app.routes.image_path + filename,
 			        method:"get",
 			        success: function( _file_path ){
-			        	console.log("display image list success: ", _method, ":", _file_path);
+			        	console.log("imagepath success: ", _method, ":", _file_path);
 
 			        	//create image li
 			        	var li 				= $('<li class="visible"></li>'),
@@ -100,9 +117,12 @@ define([
 			    }) );
 			}
 		},
+		startHadoopTimer:function(){
+			this.hadoop_time		= new Date().getTime();
+			this.hadoop_running 	= true; 
+		},
 		stopHadoopTimer:function(){
 			this.hadoop_running = false;
-		    this.hadoop_time = 0;
 		},
 		cancelHadoop:function(){
 			var _t = this;
@@ -133,13 +153,22 @@ define([
 		},
 		onstep:function(){
 			if(this.hadoop_running){
-				this.hadoop_time++;
-				this.hadoop_time_el.html( this.hadoop_time );
+				this.hadoop_time_el.html( new Date().getTime()-this.hadoop_time );
 			}
 		},
-		onclose:function(){
-			console.log("closing search view page");
+		onnavbuttonclicked:function( _pageid ){
+	    	if( _pageid == "wrapup" && !this.lshcomplete )
+				return;
 
+			changepage( _pageid );
+		},
+		onclose:function(){
+			var _t = this;
+
+			//cancel timers
+			$.each( _t.timers, function(){ clearTimeout(this); });
+
+			//cancel hadoop;
 			this.cancelHadoop();
 		},
 	});

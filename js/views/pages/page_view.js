@@ -1,11 +1,8 @@
 define([
   'backbone',
   'models/page_model',
-  'modules/slider/views/slider_view',
-  'modules/videoplayer/views/videoplayer_view',
-  'modules/audioplayer/views/audioplayer_view',
-  'modules/navigation/views/navigation_view'
-], function(Backbone, PageModel, SliderView, VideoPlayerView, AudioPlayerView, NavigationView){
+  'modules/audioplayer/views/audioplayer_view'
+], function(Backbone, PageModel, AudioPlayerView){
 	var PageView = Backbone.View.extend({
 		el: "#page-container",
 		initialize:function( options ){
@@ -15,7 +12,7 @@ define([
 
 			_t.model = new PageModel( { id:_t.id } );
 			_t.collection.push( _t.model );
-
+			
 			_t.model.on( "change:active", function( _model ){
 				if( _model.get("active") == true )
 					_t.render();
@@ -26,8 +23,6 @@ define([
 			_t.win = $(window);
 		},
 		render:function(){
-			console.log("Render page html");
-
 			this.$el.fadeOut( 0 );
 			
 			this.$el.html( this.template() );
@@ -40,24 +35,36 @@ define([
 			var _t = this;
 
 			_t.isready = true;
-
-			_t.buildsliders();
-			_t.buildvideos();
-			_t.buildnavigations();
 			_t.buildaudioplayers();
+			_t.initialize_navigation();
 
 			_t.$el.fadeIn( 400 );
 
 			requestAnimationFrame( function(){ _t.step(); } );
 
 			_t.onready();
+		},
+		initialize_navigation:function(){
+			var _t = this;
 
-			console.log(_t.videos);
+			_t.page_navigation 		=  _t.$el.find(".page-navigation").eq(0);
+			_t.navigation_buttons 	= _t.page_navigation.find("li");
+			_t.navigation_buttons.each(function(){
+				var li = $(this);
+				var a = li.children("a").eq(0);
+
+				a.click(function(e){
+					e.preventDefault();
+
+					_t.onnavbuttonclicked( $(this).data("navigate-to") );
+				});
+			});
+		},
+		enableallnavigation:function(){
+			this.navigation_buttons.removeClass("disabled");
 		},
 		buildaudioplayers:function(){
 			var _t = this;
-
-			console.log("PageView: ", this.id, " :build audioplayers");
 
 			_t.audioplayers = [];
 
@@ -69,64 +76,12 @@ define([
 				_t.audioplayers.push( audioplayer );
 			});
 		},
-		buildsliders:function(){
-			var _t = this;
-
-			console.log("PageView: ", this.id, " :buildsliders");
-
-			_t.sliders = [];
-
-			this.$el.find(".cfm-slider" ).each( function( i, _el ){
-				var slider = new SliderView({
-					id:_el.getAttribute( "id" ), 
-					el:_el
-				} );
-
-				_t.sliders.push( slider );				
-			});
-		},
-		buildvideos:function(){
-			var _t = this;
-
-			console.log("PageView: ", this.id, " :buildvideos");
-
-			_t.videos = [];
-
-			this.$el.find(".cfm-videoplayer").each( function( i, _el ){
-				var video = new VideoPlayerView({
-				  id:_el.getAttribute("id"), el:_el, page_collection:_t.page_collection
-				});
-
-				_t.videos.push( video );
-			});
-		},
-		buildnavigations:function(){
-			var _t = this;
-
-			console.log("PageView: ", this.id, " :buildnavigations");
-
-			_t.navigations = [];
-
-			this.$el.find(".cfm-navigation").each( function( i, _el ){
-				var navigation = new NavigationView({
-		          id: _el.getAttribute("id"), 
-		          el:_el, page_collection:_t.collection
-		        });
-
-		        _t.navigations.push( navigation );
-			});
-		},
 		step:function(e,h){
 			var _t = this;
 
 			if( didresize ){
 				_t.win_w = _t.win.width(); 
 				_t.win_h = _t.win.height();
-
-				$.each(_t.videos, function(k,v){
-					v.resize( _t.win_w, _t.win_h );
-				});
-
 	        	_t.onresize();
 	        	didresize = false;
 		    }
@@ -135,6 +90,9 @@ define([
 
 			_t.onstep();
 	    },
+		onnavbuttonclicked:function( _pageid ){
+			changepage( _pageid );
+		},
 		onstep:function(){/*overridden*/},
 	    onresize:function(){/*overridden*/},
 		onready:function(){/*overridden*/},

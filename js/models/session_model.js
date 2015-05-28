@@ -6,7 +6,6 @@ define([
     selected_file_id: null,
     uploaded_file_id: null,
     initialize:function(){
-    	console.log("initialize session:");
     }
   });
 

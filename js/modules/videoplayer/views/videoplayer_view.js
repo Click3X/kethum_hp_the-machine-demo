@@ -9,8 +9,6 @@ define([
             _t.video          = _t.$el.find( "video.cfm-videoplayer-desktop" )[0];
             _t.mobile_video   = _t.$el.find( "video.cfm-videoplayer-mobile" )[0];
 
-            console.log(_t.video);
-
             _t.model          = new Backbone.Model( { ready:false } );
 
             _t.model.on( "change:ready", function( _model ){
@@ -36,8 +34,6 @@ define([
             });
 
             _t.load( _t.video_url, _t.video_type, _t.poster_url );
-
-            console.log("initialize video player", _t.video);
         },
         play:function(){
             if( mobile == false ) this.video.play();
@@ -81,6 +77,9 @@ define([
 
             if( _poster ) _t.loadposter( _poster );
         },
+        onended:function(_callback){
+            this.video.onended = _callback;
+        },
         loadposter:function( _url ){
             var _t = this, img = new Image();
 
@@ -92,13 +91,9 @@ define([
                 $(_t.poster).click( function(){
                     _t.play();
                 });
-
-                console.log( "load poster complete" );
             }   
 
             img.src = _url;
-
-            console.log( "loading poster", _url );
 
             _t.resize( $(window).width(), $(window).height() );
         },
@@ -112,8 +107,6 @@ define([
             _t.$el.css({
                 "transform":"scale("+scale+")"
             });
-
-            console.log(_width, _height, scale);
         }
     });
 

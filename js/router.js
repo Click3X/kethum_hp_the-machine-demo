@@ -6,10 +6,8 @@ define([
   'pages/photo_view',
   'pages/search_view',
   'pages/wrapup_view',
-  'pages/thankyou_view',
-  'modules/navigation/views/navigation_view',
   'models/session_model'
-], function (Backbone, PageCollection, AttractView, IntroView, PhotoView, SearchView, WrapupView, ThankyouView, NavigationView, SessionModel){
+], function (Backbone, PageCollection, AttractView, IntroView, PhotoView, SearchView, WrapupView, SessionModel){
   var Router   = Backbone.Router.extend({
     initialize:function(){
       var _t = this;
@@ -22,8 +20,7 @@ define([
         new IntroView({ collection:_t.page_collection, session_model:_t.session_model }),
         new PhotoView({ collection:_t.page_collection, session_model:_t.session_model }),
         new SearchView({ collection:_t.page_collection, session_model:_t.session_model }),
-        new WrapupView({ collection:_t.page_collection, session_model:_t.session_model }),
-        new ThankyouView({ collection:_t.page_collection, session_model:_t.session_model }),
+        new WrapupView({ collection:_t.page_collection, session_model:_t.session_model })
       ];
 
       _t.register_container_el  = $( "div#register-container" );
@@ -39,29 +36,18 @@ define([
         //validate form
         _t.email_input_el.removeClass("error");
 
-        if( _email_val && _email_val != "" ){
+        if( _email_val && _email_val != "" && validateemail(_email_val) ){
           _t.registeruser( _email_val );
         } else {
           _t.email_input_el.addClass("error");
         }
       });
 
-      /** ===== BUILD MAIN NAVIGATIONS ===== **/
-      _t.navigations = [];
-      $(".main-navigation.cfm-navigation").each(function(i, _el){
-        var navigation = new NavigationView({
-          id: _el.getAttribute("id"), 
-          el:_el, page_collection:_t.page_collection
-        });
-
-        _t.navigations.push( navigation );
-      });
-
       $(window).resize(function doresize(e){
         didresize = true;
       });
 
-      this.start();
+      _t.onchangepage("attract");
     },
     registeruser:function( _email ){
       var _t = this;
@@ -89,7 +75,7 @@ define([
           },
           error: function( _e ) 
           {
-            console.log( "upload image error: " );
+            console.log( "register error: " );
             console.log( _e );
 
             _t.register_container_el.addClass("error");
@@ -105,13 +91,6 @@ define([
         _t.email_message_el.html("Register for updates");
         _t.email_input_el.val("");
       }, 4000);
-    },
-    start:function(){
-      Backbone.history.start( { pushState: pushstate, hashChange:true, silent:false, root:root_dir } );
-    },
-    routes: {
-      ':pageid'   : 'onchangepage',
-      '*actions'  : 'onchangepage'
     },
     onchangepage:function(_pageid){
       !_pageid ? _pageid = "attract" : null;

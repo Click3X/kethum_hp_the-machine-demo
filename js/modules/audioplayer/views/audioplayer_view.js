@@ -11,8 +11,9 @@ define([
 
             $( _t.audio ).attr( "type", "audio/" + _t.audio_type );
             $( _t.audio ).attr( "src", _t.audio_url );
-
-            //_t.play();
+        },
+        onended:function(_callback){
+            this.audio.onended = _callback;
         },
         play:function(){
             this.audio.play();
