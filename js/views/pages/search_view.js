@@ -65,7 +65,10 @@ define([
 			_t.audioplayers[ _t.audiotrack_keys[ _method ] ].onended(function(){
 				console.log("audio eneded: ", _method);
 
-				if( _method == "lsh" ) _t.lshcomplete = true;
+				if( _method == "lsh" ){
+					_t.lshcomplete = true;
+					_t.enableallnavigation();
+				}
 			});
 
 		    _t.audioplayers[ _t.audiotrack_keys[ _method ] ].play();
