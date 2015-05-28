@@ -53,7 +53,7 @@ require([
         if( uagent.search( "iphone" ) > -1 ) iphone = true;
         if( uagent.search( "android" ) > -1 ) android = true;
 
-        if( iphone && (window.screen.height == 480 || window.screen.height == 320) )
+        if( iphone && ( (window.screen.height == 480 && window.screen.width == 320) || (window.screen.width == 480 && window.screen.height == 320) ) )
             iphone34 = true;
 
         /*-------- set body tags ---------*/
