@@ -92,32 +92,37 @@ define([
 	        }
 
 	        //build images
-			for(i = 0; i < 4; i++) { 
+			for(var i = 0; i < 4; i++) { 
 				var filename = _data['results'][i]['img'].split("/")[1];
 
-				_t.ajax_queue.push( $.ajax({
-			        url: app.routes.image_path + filename,
-			        method:"get",
-			        success: function( _file_path ){
-			        	console.log("imagepath success: ", _method, ":", _file_path);
+				//create image li
+	        	var li 				= $('<li class="visible"></li>'),
+	        	inner 				= $('<div class="project-inner"></div>'),
+				a 					= $('<a></a>');
 
-			        	//create image li
-			        	var li 				= $('<li class="visible"></li>'),
-			        	inner 				= $('<div class="project-inner"></div>'),
-						a 					= $('<a style="background-image: url(' + _file_path + ')"></a>');
+				li.append( inner );
+				inner.append( a );
 
-						li.append( inner );
-						inner.append( a );
+				//append li to image list ul
+				search_ul.append( li );
 
-						//append li to image list ul
-						search_ul.append( li );	
-			        },
-			        error: function( _e ) 
-			        {
-			           	console.log( "display image list success: ", _method );
-			           	console.log( _e );
-			        }
-			    }) );
+				getimage( a, filename );
+
+				function getimage( _a, _filename ){
+					_t.ajax_queue.push( $.ajax({
+				        url: app.routes.image_path + _filename,
+				        method:"get",
+				        success: function( _file_path ){
+				        	console.log( "displayImageList getimage success: ", _file_path );
+
+				        	_a.css( "background-image","url('" + _file_path + "')" );
+				        },
+				        error: function( _e ) 
+				        {
+				        	console.log( "displayImageList getimage error: ", e );
+				        } 
+				    }) );
+				}
 			}
 		},
 		startHadoopTimer:function(){
