@@ -15,7 +15,9 @@ define([
       _t.page_collection  = new PageCollection();
       _t.session_model    = new SessionModel();
 
-      _t.page_views = [   
+      _t.session_model.set( "presenter_mode", true );
+
+      _t.page_views = [
         new AttractView({ collection:_t.page_collection, session_model:_t.session_model }),
         new IntroView({ collection:_t.page_collection, session_model:_t.session_model }),
         new PhotoView({ collection:_t.page_collection, session_model:_t.session_model }),
@@ -28,7 +30,7 @@ define([
       _t.email_form_el          = _t.register_container_el.find( "form#register-form" ).eq(0);
       _t.email_input_el         = _t.register_container_el.find( "input.email" ).eq(0);
 
-      _t.email_form_el.submit(function(e){
+      _t.email_form_el.submit( function(e){
         e.preventDefault();
 
         var _email_val = _t.email_input_el.val();

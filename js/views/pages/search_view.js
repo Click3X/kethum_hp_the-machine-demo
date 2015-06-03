@@ -25,8 +25,8 @@ define([
 					_t.startHadoopTimer();
 
 					_t.doSearch( "hadoop" );
-					_t.timers.push( setTimeout( function(){ _t.doSearch( "naive" ) }, 10500 ));
-					_t.timers.push( setTimeout( function(){ _t.doSearch( "lsh" ) }, 20500 ));
+					_t.timers.push( setTimeout( function(){ _t.doSearch( "naive" ) }, _t.presenter_mode() ? 500 : 10500 ));
+					_t.timers.push( setTimeout( function(){ _t.doSearch( "lsh" ) }, _t.presenter_mode() ? 1000 : 20500 ));
 				}
 			}
 		},
@@ -62,16 +62,23 @@ define([
 		        }
 		    }));
 
-			_t.audioplayers[ _t.audiotrack_keys[ _method ] ].onended(function(){
-				console.log("audio eneded: ", _method);
-
+			if( _t.presenter_mode() ){
 				if( _method == "lsh" ){
 					_t.lshcomplete = true;
 					_t.enableallnavigation();
 				}
-			});
+			} else {
+				_t.audioplayers[ _t.audiotrack_keys[ _method ] ].onended(function(){
+					console.log("audio eneded: ", _method);
 
-		    _t.audioplayers[ _t.audiotrack_keys[ _method ] ].play();
+					if( _method == "lsh" ){
+						_t.lshcomplete = true;
+						_t.enableallnavigation();
+					}
+				});
+
+			    _t.audioplayers[ _t.audiotrack_keys[ _method ] ].play();
+			}
 		},
 		displayImageList:function( _data, _method, _search_el ) {
 			var _t 			= this, 

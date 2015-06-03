@@ -43,6 +43,8 @@ define([
 			requestAnimationFrame( function(){ _t.step(); } );
 
 			_t.onready();
+
+			console.log( "page ready: ", _t.id, "presenter_mode:", _t.presenter_mode() );
 		},
 		initialize_navigation:function(){
 			var _t = this;
@@ -93,6 +95,7 @@ define([
 		onnavbuttonclicked:function( _pageid ){
 			changepage( _pageid );
 		},
+		presenter_mode:function(){ return this.session_model.get("presenter_mode"); },
 		onstep:function(){/*overridden*/},
 	    onresize:function(){/*overridden*/},
 		onready:function(){/*overridden*/},
